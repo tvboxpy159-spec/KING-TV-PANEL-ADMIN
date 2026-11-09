@@ -3,54 +3,59 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080808">
-<title>KING TV PREMIUM | PANEL ADMIN</title>
-
+<title>KING TV PREMIUM - Administración</title>
 <style>
 *{box-sizing:border-box}
-:root{--orange:#ff6500;--gold:#ffca55}
-body{margin:0;background:#080808;color:white;font-family:Arial,sans-serif;min-height:100vh}
+body{margin:0;background:#090909;color:#fff;font-family:Arial,sans-serif}
 .hidden{display:none!important}
-button,input{font:inherit}
-button{border:0;cursor:pointer;border-radius:9px;padding:13px 18px;font-weight:bold}
-button:disabled{opacity:.6;cursor:wait}
-.primary{background:linear-gradient(120deg,#ff6500,#ffb000);color:#100800}
-.secondary{background:#252525;color:white;border:1px solid #444}
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at top,#642000 0%,transparent 48%),#080808}
-.login-card{width:100%;max-width:430px;padding:28px;border:1px solid #8c3d10;border-radius:18px;background:#111;box-shadow:0 0 35px #ff590033}
-.logo{text-align:center;color:var(--gold);font-size:29px;font-weight:1000;letter-spacing:2px;text-shadow:0 0 15px #ff6500}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0;border-radius:9px;padding:12px 16px;font-weight:bold}
+.primary{background:linear-gradient(120deg,#ff6500,#ffbd38);color:#160900}
+.secondary{background:#292929;color:white;border:1px solid #555}
+.danger{background:#581b12;color:#fff;border:1px solid #a43c22}
+header{padding:17px;background:#111;border-bottom:1px solid #74330f;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{color:#ffc65b;font-weight:900;letter-spacing:1px}
+.brand small{display:block;color:#aaa;font-size:10px;margin-top:5px}
+main{max-width:1100px;margin:auto;padding:18px}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at top,#632300,transparent 50%),#080808}
+.login-card{width:100%;max-width:420px;background:#131313;border:1px solid #87400f;border-radius:17px;padding:26px;box-shadow:0 0 30px #ff650022}
 .crown{text-align:center;font-size:43px}
-.subtitle{text-align:center;color:#aaa;font-size:12px;letter-spacing:2px;margin:8px 0 25px}
-label{display:block;margin:15px 0 7px;color:#ddd;font-size:13px}
-input{width:100%;padding:14px;border-radius:9px;border:1px solid #444;background:#080808;color:white;outline:none}
-input:focus{border-color:var(--orange)}
+.logo{text-align:center;color:#ffc65b;font-size:29px;font-weight:1000;letter-spacing:2px}
+.subtitle{text-align:center;color:#aaa;font-size:11px;margin:8px 0 25px;letter-spacing:2px}
+label{display:block;margin:14px 0 7px;font-size:13px;color:#ddd}
+input,select{width:100%;padding:13px;border:1px solid #444;border-radius:9px;background:#080808;color:white;outline:none}
+input:focus,select:focus{border-color:#ff7600}
 .login-card button{width:100%;margin-top:20px}
-.message{color:#ff8c66;font-size:13px;margin-top:15px;text-align:center;min-height:18px;line-height:1.5}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;background:#111;border-bottom:1px solid #6b310d;gap:10px}
-.brand{font-weight:900;color:var(--gold);letter-spacing:1px}
-.brand small{display:block;color:#aaa;font-size:10px;margin-top:4px}
-.content{padding:22px;max-width:1100px;margin:auto}
-.welcome{padding:22px;border:1px solid #74330f;border-radius:15px;background:linear-gradient(120deg,#241006,#111);margin-bottom:20px}
-.welcome h2{margin:12px 0 8px;color:var(--gold)}
-.welcome p{margin:0;color:#bbb;font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px}
-.card{background:#151515;border:1px solid #38302a;border-radius:13px;padding:19px;min-height:115px}
-.card .symbol{font-size:25px}
-.card h3{font-size:14px;margin:12px 0 5px}
-.card p{font-size:12px;color:#999;margin:0}
-.section{margin-top:22px;background:#121212;border:1px solid #38302a;border-radius:13px;padding:19px}
-.section h3{color:var(--gold);margin-top:0}
-.section p{color:#aaa;font-size:13px;line-height:1.6}
-.status{display:inline-block;color:#75e69a;border:1px solid #28633c;background:#102319;border-radius:20px;padding:5px 10px;font-size:11px}
-.diagnostic{margin-top:18px;padding:14px;border:1px solid #8c3d10;border-radius:10px;background:#090909;text-align:left;overflow-wrap:anywhere}
-.diagnostic h3{color:var(--gold);margin:0 0 12px;font-size:15px}
-.diagnostic pre{white-space:pre-wrap;overflow-wrap:anywhere;color:#ddd;font-size:12px;line-height:1.6;margin:0;font-family:monospace}
-.footer{text-align:center;color:#666;font-size:11px;padding:30px 10px}
-@media(max-width:420px){.topbar{padding:14px 12px}.brand{font-size:13px}.content{padding:14px}}
+.message{font-size:13px;color:#ffb18b;line-height:1.5;margin-top:13px;white-space:pre-wrap}
+.welcome{background:linear-gradient(120deg,#291205,#111);border:1px solid #74330f;border-radius:13px;padding:19px;margin-bottom:17px}
+.welcome h2{color:#ffc65b;margin:10px 0}
+.welcome p{color:#bbb;font-size:13px;margin:5px 0}
+.status{display:inline-block;border:1px solid #27653c;background:#102719;color:#8df0a8;padding:5px 10px;border-radius:20px;font-size:11px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:3px 0 14px}
+.tabs button{white-space:nowrap;background:#222;color:#ddd;border:1px solid #444}
+.tabs button.active{background:#ff7600;color:#170900;border-color:#ff7600}
+.panel{background:#141414;border:1px solid #39302a;border-radius:13px;padding:17px;margin:12px 0}
+.panel h3{color:#ffc65b;margin:0 0 15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+.stat{background:#1d1d1d;border:1px solid #39302a;padding:16px;border-radius:11px}
+.stat strong{display:block;color:#ffc65b;font-size:25px;margin-top:8px}
+.stat span{font-size:12px;color:#aaa}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.form-grid button{align-self:end;min-height:45px}
+.item{background:#1b1b1b;border:1px solid #383838;border-radius:10px;padding:13px;margin:9px 0}
+.item strong{color:#ffc65b}
+.item small{display:block;color:#aaa;margin:6px 0;overflow-wrap:anywhere}
+.item .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.item button{font-size:12px;padding:9px 12px}
+.empty{color:#999;font-size:13px;padding:12px}
+.notice{color:#aaa;font-size:12px;line-height:1.5}
+.footer{text-align:center;color:#666;font-size:11px;padding:25px}
+hr{border:0;border-top:1px solid #333;margin:17px 0}
+@media(max-width:450px){main{padding:12px}header{padding:13px}.brand{font-size:13px}}
 </style>
 </head>
-
 <body>
 
 <section id="loginScreen" class="login-wrap">
@@ -58,34 +63,24 @@ input:focus{border-color:var(--orange)}
   <div class="crown">👑</div>
   <div class="logo">KING TV</div>
   <div class="subtitle">PREMIUM · PANEL ADMINISTRADOR</div>
-
   <form id="loginForm">
-   <label for="email">Correo electrónico</label>
-   <input id="email" type="email" placeholder="Correo del administrador" autocomplete="username" required>
-
-   <label for="password">Contraseña</label>
-   <input id="password" type="password" placeholder="Tu contraseña" autocomplete="current-password" required>
-
-   <button class="primary" id="loginButton" type="submit">INGRESAR AL PANEL</button>
-   <div id="loginMessage" class="message"></div>
+   <label>Correo electrónico</label>
+   <input id="email" type="email" autocomplete="username" required placeholder="Correo del administrador">
+   <label>Contraseña</label>
+   <input id="password" type="password" autocomplete="current-password" required placeholder="Tu contraseña">
+   <button class="primary" id="loginButton">INGRESAR AL PANEL</button>
   </form>
-
-  <div id="diagnosticBox" class="diagnostic hidden">
-   <h3>🔎 INFORMACIÓN DEL DIAGNÓSTICO</h3>
-   <pre id="diagnosticText"></pre>
-  </div>
+  <div id="loginMessage" class="message"></div>
  </div>
 </section>
 
 <section id="appScreen" class="hidden">
- <header class="topbar">
-  <div class="brand">👑 KING TV PREMIUM
-   <small>PANEL DE ADMINISTRACIÓN</small>
-  </div>
-  <button class="secondary" id="logoutButton">CERRAR SESIÓN</button>
+ <header>
+  <div class="brand">👑 KING TV PREMIUM<small>PANEL DE ADMINISTRACIÓN</small></div>
+  <button class="secondary" id="logoutButton">SALIR</button>
  </header>
 
- <main class="content">
+ <main>
   <div class="welcome">
    <span class="status">● ADMINISTRADOR AUTORIZADO</span>
    <h2>Bienvenido al panel KING TV</h2>
@@ -93,47 +88,92 @@ input:focus{border-color:var(--orange)}
   </div>
 
   <div class="grid">
-   <div class="card"><div class="symbol">👥</div><h3>Revendedores</h3><p>Gestión de cuentas</p></div>
-   <div class="card"><div class="symbol">🪙</div><h3>Créditos</h3><p>Control de saldo</p></div>
-   <div class="card"><div class="symbol">📊</div><h3>Ventas</h3><p>Registro de ventas</p></div>
-   <div class="card"><div class="symbol">📋</div><h3>Movimientos</h3><p>Historial de operaciones</p></div>
+   <div class="stat"><span>Revendedores</span><strong id="totalResellers">0</strong></div>
+   <div class="stat"><span>Créditos disponibles</span><strong id="totalCredits">0</strong></div>
+   <div class="stat"><span>Revendedores activos</span><strong id="activeResellers">0</strong></div>
   </div>
 
-  <div class="section">
-   <h3>👑 Administración principal</h3>
-   <p>Tu identidad fue verificada mediante Firebase Authentication y Firestore.</p>
-   <p>Las herramientas de gestión se configurarán después de revisar los controles de seguridad.</p>
+  <div class="tabs">
+   <button class="active" data-tab="resellers">👥 Revendedores</button>
+   <button data-tab="create">➕ Crear cuenta</button>
+   <button data-tab="credits">🪙 Créditos</button>
+   <button data-tab="history">📋 Movimientos</button>
   </div>
-  <div class="footer">KING TV PREMIUM © 2026 · PANEL ADMINISTRADOR</div>
+
+  <section id="tab-resellers" class="panel">
+   <h3>👥 Lista de revendedores</h3>
+   <button class="secondary" id="refreshButton">ACTUALIZAR LISTA</button>
+   <div id="resellerList"><p class="empty">Cargando...</p></div>
+  </section>
+
+  <section id="tab-create" class="panel hidden">
+   <h3>➕ Crear revendedor</h3>
+   <form id="createForm">
+    <label>Nombre del revendedor</label>
+    <input id="newName" required maxlength="80" placeholder="Nombre completo">
+    <label>Correo electrónico</label>
+    <input id="newEmail" type="email" required placeholder="Correo del revendedor">
+    <label>Contraseña inicial</label>
+    <input id="newPassword" type="password" required minlength="6" placeholder="Mínimo 6 caracteres">
+    <p class="notice">La cuenta se creará con rol revendedor, activa y con 0 créditos. La sesión de administrador se conservará.</p>
+    <button class="primary" id="createButton">CREAR REVENDEDOR</button>
+   </form>
+   <div id="createMessage" class="message"></div>
+  </section>
+
+  <section id="tab-credits" class="panel hidden">
+   <h3>🪙 Asignar o descontar créditos</h3>
+   <form id="creditForm">
+    <label>Seleccionar revendedor</label>
+    <select id="creditReseller" required>
+     <option value="">Selecciona un revendedor</option>
+    </select>
+    <label>Operación</label>
+    <select id="creditOperation">
+     <option value="sumar">Asignar créditos</option>
+     <option value="restar">Descontar créditos</option>
+    </select>
+    <label>Cantidad de créditos</label>
+    <input id="creditAmount" type="number" min="1" step="1" required placeholder="Ejemplo: 50">
+    <button class="primary" id="creditButton">CONFIRMAR MOVIMIENTO</button>
+   </form>
+   <div id="creditMessage" class="message"></div>
+   <hr>
+   <p class="notice">Equivalencias: 1 mes = 1 crédito · 3 meses = 3 créditos · 6 meses = 6 créditos · 12 meses = 12 créditos.</p>
+  </section>
+
+  <section id="tab-history" class="panel hidden">
+   <h3>📋 Historial de movimientos</h3>
+   <button class="secondary" id="historyRefresh">ACTUALIZAR HISTORIAL</button>
+   <div id="movementList"><p class="empty">Cargando...</p></div>
+  </section>
+
+  <div class="footer">KING TV PREMIUM © 2026</div>
  </main>
 </section>
 
 <script type="module">
-import { initializeApp }
+import {initializeApp}
  from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
 import {
- getAuth,
- signInWithEmailAndPassword,
- onAuthStateChanged,
- signOut
+ getAuth, signInWithEmailAndPassword, onAuthStateChanged,
+ signOut, createUserWithEmailAndPassword, deleteUser
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 import {
- getFirestore,
- doc,
- getDocFromServer,
- collection,
- getDocs
+ getFirestore, doc, getDoc, collection, getDocs, setDoc,
+ serverTimestamp, runTransaction, query, orderBy, limit,
+ updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
- apiKey: "AIzaSyCcBBeW4mmjPXt53IYUaqVVWAESkqbVr5c",
- authDomain: "king-tv-premium.firebaseapp.com",
- projectId: "king-tv-premium",
- storageBucket: "king-tv-premium.firebasestorage.app",
- messagingSenderId: "573500590466",
- appId: "1:573500590466:web:d0d8043676dc90c621a79b"
+ apiKey:"AIzaSyCcBBeW4mmjPXt53IYUaqVVWAESkqbVr5c",
+ authDomain:"king-tv-premium.firebaseapp.com",
+ projectId:"king-tv-premium",
+ storageBucket:"king-tv-premium.firebasestorage.app",
+ messagingSenderId:"573500590466",
+ appId:"1:573500590466:web:d0d8043676dc90c621a79b"
 };
 
 const ADMIN_UID = "oTyoKtREvAVn87qbz8xhqxp8NHm2";
@@ -142,190 +182,366 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const loginScreen = document.getElementById("loginScreen");
-const appScreen = document.getElementById("appScreen");
-const loginForm = document.getElementById("loginForm");
-const loginMessage = document.getElementById("loginMessage");
-const loginButton = document.getElementById("loginButton");
-const diagnosticBox = document.getElementById("diagnosticBox");
-const diagnosticText = document.getElementById("diagnosticText");
+// Aplicación secundaria: permite crear cuentas sin cerrar
+// la sesión principal del administrador.
+const secondaryApp = initializeApp(firebaseConfig,"resellerCreator");
+const secondaryAuth = getAuth(secondaryApp);
 
-let processingUid = null;
+const $ = id => document.getElementById(id);
+let currentUser = null;
+let resellers = [];
 
-function showLogin(message = "") {
- appScreen.classList.add("hidden");
- loginScreen.classList.remove("hidden");
- loginMessage.textContent = message;
+function message(id,text){
+ $(id).textContent = text;
 }
 
-function showDiagnostic(details) {
- diagnosticBox.classList.remove("hidden");
- diagnosticText.textContent = details;
+function escapeHTML(value){
+ return String(value ?? "").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ })[c]);
 }
 
-function showApp(user) {
- loginScreen.classList.add("hidden");
- appScreen.classList.remove("hidden");
- document.getElementById("adminEmail").textContent =
-  "Sesión: " + (user.email || "Sin correo");
+function showLogin(text=""){
+ $("appScreen").classList.add("hidden");
+ $("loginScreen").classList.remove("hidden");
+ message("loginMessage",text);
 }
 
-async function validateAdmin(user) {
- if (!user) return;
- if (processingUid === user.uid) return;
- processingUid = user.uid;
-
- const diagnostic = [];
-
- try {
-  showLogin("Verificando identidad y consultando Firestore...");
-  diagnosticBox.classList.add("hidden");
-
-  diagnostic.push("PROYECTO CONFIGURADO: " + firebaseConfig.projectId);
-  diagnostic.push("PROYECTO FIRESTORE: " + db.app.options.projectId);
-  diagnostic.push("CORREO AUTENTICADO: " + (user.email || "No disponible"));
-  diagnostic.push("UID AUTENTICADO: " + user.uid);
-  diagnostic.push("UID ADMINISTRADOR ESPERADO: " + ADMIN_UID);
-  diagnostic.push("BASE DE DATOS: (default)");
-
-  if (user.uid !== ADMIN_UID) {
-   diagnostic.push("");
-   diagnostic.push("RESULTADO: UID DIFERENTE.");
-   showLogin("Acceso denegado. Esta cuenta no es el administrador principal.");
-   showDiagnostic(diagnostic.join("\n"));
-   return;
-  }
-
-  // PRUEBA 1: CONSULTAR EL DOCUMENTO DIRECTAMENTE
-  const profileRef = doc(db, "usuarios", user.uid);
-  diagnostic.push("");
-  diagnostic.push("===== PRUEBA 1: DOCUMENTO DIRECTO =====");
-  diagnostic.push("RUTA: " + profileRef.path);
-
-  const profileSnap = await getDocFromServer(profileRef);
-  diagnostic.push("¿EXISTE?: " + profileSnap.exists());
-
-  // PRUEBA 2: CONSULTAR LA COLECCIÓN COMPLETA
-  diagnostic.push("");
-  diagnostic.push("===== PRUEBA 2: LISTADO DE USUARIOS =====");
-
-  let collectionSnap;
-
-  try {
-   collectionSnap = await getDocs(collection(db, "usuarios"));
-   diagnostic.push("LECTURA DE COLECCIÓN: CORRECTA");
-   diagnostic.push("CANTIDAD DE DOCUMENTOS: " + collectionSnap.size);
-   diagnostic.push("DOCUMENTOS ENCONTRADOS:");
-
-   let foundAdmin = false;
-
-   collectionSnap.forEach((item) => {
-    diagnostic.push("- " + item.id);
-
-    if (item.id === ADMIN_UID) {
-     foundAdmin = true;
-     diagnostic.push("  >>> UID DEL ADMINISTRADOR ENCONTRADO <<<");
-    }
-   });
-
-   diagnostic.push("¿APARECE EL UID ADMIN?: " + foundAdmin);
-
-  } catch (listError) {
-   diagnostic.push("ERROR AL LEER LA COLECCIÓN:");
-   diagnostic.push("CÓDIGO: " + (listError.code || "No disponible"));
-   diagnostic.push("MENSAJE: " + (listError.message || "Sin mensaje"));
-  }
-
-  // VALIDAR DOCUMENTO Y PERMISOS
-  if (!profileSnap.exists()) {
-   diagnostic.push("");
-   diagnostic.push("RESULTADO: EL DOCUMENTO DIRECTO NO EXISTE.");
-   diagnostic.push("Compara el listado anterior con el UID esperado.");
-   showLogin("Firestore respondió que el documento no existe.");
-   showDiagnostic(diagnostic.join("\n"));
-   return;
-  }
-
-  const profile = profileSnap.data();
-
-  diagnostic.push("");
-  diagnostic.push("===== DATOS DEL PERFIL =====");
-  diagnostic.push("EMAIL EN FIRESTORE: " + String(profile.email));
-  diagnostic.push("ROL EN FIRESTORE: " + String(profile.rol));
-  diagnostic.push("ACTIVO EN FIRESTORE: " + String(profile.activo));
-
-  if (profile.rol !== "admin" || profile.activo !== true) {
-   diagnostic.push("");
-   diagnostic.push("RESULTADO: EL ROL O EL ESTADO ACTIVO NO COINCIDE.");
-   showLogin("El perfil existe, pero sus permisos no son válidos.");
-   showDiagnostic(diagnostic.join("\n"));
-   return;
-  }
-
-  diagnostic.push("");
-  diagnostic.push("RESULTADO: ADMINISTRADOR VERIFICADO.");
-  showApp(user);
-  console.log(diagnostic.join("\n"));
-
- } catch (error) {
-  console.error("Error de diagnóstico Firebase:", error);
-
-  diagnostic.push("");
-  diagnostic.push("ERROR DEVUELTO POR FIREBASE:");
-  diagnostic.push("CÓDIGO: " + (error.code || "No disponible"));
-  diagnostic.push("MENSAJE: " + (error.message || "Sin mensaje"));
-  diagnostic.push("No se modificó ningún documento.");
-
-  showLogin("No se pudo completar la consulta de Firestore.");
-  showDiagnostic(diagnostic.join("\n"));
-
- } finally {
-  processingUid = null;
- }
+function showApp(user){
+ $("loginScreen").classList.add("hidden");
+ $("appScreen").classList.remove("hidden");
+ $("adminEmail").textContent="Sesión: "+(user.email || "");
 }
 
-loginForm.addEventListener("submit", async (event) => {
- event.preventDefault();
+function setBusy(button,busy,text){
+ button.disabled=busy;
+ if(busy) button.dataset.oldText=button.textContent;
+ button.textContent=busy ? text : (button.dataset.oldText || button.textContent);
+}
 
- const email = document.getElementById("email").value.trim();
- const password = document.getElementById("password").value;
-
- loginButton.disabled = true;
- loginButton.textContent = "VERIFICANDO...";
- loginMessage.textContent = "";
- diagnosticBox.classList.add("hidden");
-
- try {
-  await signInWithEmailAndPassword(auth, email, password);
-  loginMessage.textContent = "Acceso autenticado. Verificando perfil...";
- } catch (error) {
-  console.error("Error de inicio de sesión:", error);
-  showLogin("Error de acceso: " + (error.code || error.message));
- } finally {
-  loginButton.disabled = false;
-  loginButton.textContent = "INGRESAR AL PANEL";
- }
-});
-
-document.getElementById("logoutButton").addEventListener("click", async () => {
- try {
+async function verifyAdmin(user){
+ if(!user || user.uid!==ADMIN_UID){
   await signOut(auth);
-  diagnosticBox.classList.add("hidden");
-  showLogin("Sesión cerrada correctamente.");
- } catch (error) {
+  showLogin("Acceso denegado: cuenta no autorizada.");
+  return false;
+ }
+ const snap=await getDoc(doc(db,"usuarios",ADMIN_UID));
+ if(!snap.exists()){
+  await signOut(auth);
+  showLogin("No se encontró el perfil del administrador.");
+  return false;
+ }
+ const data=snap.data();
+ if(data.rol!=="admin" || data.activo!==true){
+  await signOut(auth);
+  showLogin("El perfil de administrador no está activo o no tiene el rol correcto.");
+  return false;
+ }
+ return true;
+}
+
+async function loadResellers(){
+ const snap=await getDocs(collection(db,"usuarios"));
+ resellers=[];
+ snap.forEach(d=>{
+  const data=d.data();
+  if(data.rol==="revendedor"){
+   resellers.push({uid:d.id,...data});
+  }
+ });
+ resellers.sort((a,b)=>String(a.nombre||"").localeCompare(String(b.nombre||"")));
+ renderResellers();
+ renderStats();
+ renderResellerOptions();
+}
+
+function renderStats(){
+ $("totalResellers").textContent=resellers.length;
+ $("activeResellers").textContent=resellers.filter(r=>r.activo===true).length;
+ $("totalCredits").textContent=resellers.reduce((sum,r)=>sum+Math.max(0,Number(r.creditos)||0),0);
+}
+
+function renderResellerOptions(){
+ const select=$("creditReseller");
+ const old=select.value;
+ select.innerHTML='<option value="">Selecciona un revendedor</option>';
+ resellers.forEach(r=>{
+  const option=document.createElement("option");
+  option.value=r.uid;
+  option.textContent=(r.nombre||r.email||r.uid)+" · "+(Number(r.creditos)||0)+" créditos"+(r.activo===true?"":" · INACTIVO");
+  select.appendChild(option);
+ });
+ if(resellers.some(r=>r.uid===old)) select.value=old;
+}
+
+function renderResellers(){
+ const area=$("resellerList");
+ if(!resellers.length){
+  area.innerHTML='<p class="empty">Todavía no hay revendedores registrados.</p>';
+  return;
+ }
+ area.innerHTML=resellers.map(r=>{
+  const active=r.activo===true;
+  return `<div class="item">
+   <strong>${escapeHTML(r.nombre||"Sin nombre")}</strong>
+   <small>${escapeHTML(r.email||"Sin correo")}</small>
+   <small>UID: ${escapeHTML(r.uid)}</small>
+   <small>Saldo: <strong>${Number(r.creditos)||0} créditos</strong></small>
+   <small>Estado: ${active?"🟢 ACTIVO":"🔴 INACTIVO"}</small>
+   <div class="actions">
+    <button class="${active?"danger":"primary"}" data-toggle="${escapeHTML(r.uid)}">${active?"DESACTIVAR":"ACTIVAR"}</button>
+    <button class="secondary" data-assign="${escapeHTML(r.uid)}">ASIGNAR CRÉDITOS</button>
+   </div>
+  </div>`;
+ }).join("");
+}
+
+async function refreshAll(){
+ try{
+  await loadResellers();
+  await loadHistory();
+ }catch(error){
+  alert("Error al actualizar: "+(error.message||error));
+ }
+}
+
+async function createReseller(event){
+ event.preventDefault();
+ const name=$("newName").value.trim();
+ const email=$("newEmail").value.trim().toLowerCase();
+ const password=$("newPassword").value;
+ const button=$("createButton");
+
+ if(!name || !email || password.length<6){
+  message("createMessage","Completa los datos. La contraseña debe tener al menos 6 caracteres.");
+  return;
+ }
+
+ if(!currentUser || currentUser.uid!==ADMIN_UID){
+  message("createMessage","Sesión de administrador no válida.");
+  return;
+ }
+
+ setBusy(button,true,"CREANDO CUENTA...");
+ message("createMessage","Creando cuenta de revendedor...");
+
+ let newAccount=null;
+
+ try{
+  const credential=await createUserWithEmailAndPassword(secondaryAuth,email,password);
+  newAccount=credential.user;
+
+  await setDoc(doc(db,"usuarios",newAccount.uid),{
+   nombre:name,
+   email:email,
+   rol:"revendedor",
+   activo:true,
+   creditos:0,
+   creadoPor:currentUser.uid,
+   fechaCreacion:serverTimestamp()
+  });
+
+  await signOut(secondaryAuth);
+
+  $("createForm").reset();
+  message("createMessage","✅ Revendedor creado correctamente con 0 créditos.");
+  await loadResellers();
+
+ }catch(error){
   console.error(error);
+  if(newAccount){
+   try{
+    await deleteUser(newAccount);
+   }catch(cleanError){
+    console.error("No se pudo eliminar la cuenta incompleta:",cleanError);
+   }
+  }
+  try{await signOut(secondaryAuth)}catch(e){}
+  message("createMessage","No se pudo crear el revendedor: "+(error.code||error.message));
+ }finally{
+  setBusy(button,false);
+ }
+}
+
+async function changeCredits(event){
+ event.preventDefault();
+ const uid=$("creditReseller").value;
+ const operation=$("creditOperation").value;
+ const amount=Number($("creditAmount").value);
+ const button=$("creditButton");
+
+ if(!uid || !Number.isSafeInteger(amount) || amount<=0){
+  message("creditMessage","Selecciona un revendedor e ingresa una cantidad entera mayor que cero.");
+  return;
+ }
+ const reseller=resellers.find(r=>r.uid===uid);
+ if(!reseller){
+  message("creditMessage","No se encontró el revendedor.");
+  return;
+ }
+ if(reseller.activo!==true){
+  message("creditMessage","Este revendedor está desactivado. Actívalo antes de modificar sus créditos.");
+  return;
+ }
+
+ setBusy(button,true,"PROCESANDO...");
+ message("creditMessage","Registrando operación segura...");
+
+ try{
+  await runTransaction(db,async transaction=>{
+   const userRef=doc(db,"usuarios",uid);
+   const userSnap=await transaction.get(userRef);
+
+   if(!userSnap.exists()) throw new Error("El revendedor ya no existe.");
+
+   const data=userSnap.data();
+   if(data.rol!=="revendedor") throw new Error("El usuario seleccionado no es revendedor.");
+   if(data.activo!==true) throw new Error("El revendedor está inactivo.");
+
+   const before=Number(data.creditos)||0;
+   const after=operation==="sumar" ? before+amount : before-amount;
+
+   if(!Number.isSafeInteger(after) || after<0){
+    throw new Error("Saldo insuficiente. No se permiten saldos negativos.");
+   }
+
+   const movementRef=doc(collection(db,"movimientos"));
+
+   transaction.update(userRef,{creditos:after});
+   transaction.set(movementRef,{
+    tipo:operation==="sumar"?"asignacion_admin":"descuento_admin",
+    uidRevendedor:uid,
+    emailRevendedor:data.email||"",
+    nombreRevendedor:data.nombre||"",
+    cantidad:amount,
+    saldoAnterior:before,
+    saldoNuevo:after,
+    adminUid:currentUser.uid,
+    adminEmail:currentUser.email||"",
+    fecha:serverTimestamp()
+   });
+  });
+
+  $("creditAmount").value="";
+  message("creditMessage","✅ Operación registrada. Saldo actualizado correctamente.");
+  await loadResellers();
+  await loadHistory();
+
+ }catch(error){
+  console.error(error);
+  message("creditMessage","No se pudo completar: "+(error.message||error));
+ }finally{
+  setBusy(button,false);
+ }
+}
+
+async function toggleReseller(uid){
+ const reseller=resellers.find(r=>r.uid===uid);
+ if(!reseller) return;
+
+ const next=reseller.activo!==true;
+ const action=next?"activar":"desactivar";
+
+ if(!confirm("¿Confirmas "+action+" a "+(reseller.nombre||reseller.email)+"?")) return;
+
+ try{
+  await updateDoc(doc(db,"usuarios",uid),{activo:next});
+  await loadResellers();
+ }catch(error){
+  alert("No se pudo cambiar el estado: "+(error.message||error));
+ }
+}
+
+async function loadHistory(){
+ const area=$("movementList");
+ try{
+  const q=query(collection(db,"movimientos"),orderBy("fecha","desc"),limit(50));
+  const snap=await getDocs(q);
+
+  if(snap.empty){
+   area.innerHTML='<p class="empty">Todavía no hay movimientos registrados.</p>';
+   return;
+  }
+
+  area.innerHTML=snap.docs.map(d=>{
+   const m=d.data();
+   let date="Fecha pendiente";
+   if(m.fecha && m.fecha.toDate) date=m.fecha.toDate().toLocaleString("es-PY");
+
+   return `<div class="item">
+    <strong>${escapeHTML(m.tipo||"Movimiento")}</strong>
+    <small>Revendedor: ${escapeHTML(m.nombreRevendedor||m.emailRevendedor||m.uidRevendedor||"")}</small>
+    <small>Cantidad: ${Number(m.cantidad)||0} créditos</small>
+    <small>Saldo anterior: ${Number(m.saldoAnterior)||0} · Saldo nuevo: ${Number(m.saldoNuevo)||0}</small>
+    <small>Fecha: ${escapeHTML(date)}</small>
+   </div>`;
+  }).join("");
+ }catch(error){
+  console.error(error);
+  area.innerHTML='<p class="empty">No se pudo cargar el historial: '+escapeHTML(error.message||error)+'</p>';
+ }
+}
+
+$("loginForm").addEventListener("submit",async event=>{
+ event.preventDefault();
+ const button=$("loginButton");
+ setBusy(button,true,"VERIFICANDO...");
+ message("loginMessage","");
+
+ try{
+  await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value);
+ }catch(error){
+  message("loginMessage","Error de acceso: "+(error.code||error.message));
+ }finally{
+  setBusy(button,false);
  }
 });
 
-onAuthStateChanged(auth, async (user) => {
- if (user) {
-  await validateAdmin(user);
- } else {
-  processingUid = null;
+onAuthStateChanged(auth,async user=>{
+ currentUser=user;
+ if(!user){
   showLogin();
+  return;
  }
+ try{
+  const valid=await verifyAdmin(user);
+  if(!valid) return;
+  showApp(user);
+  await refreshAll();
+ }catch(error){
+  console.error(error);
+  showLogin("Error al verificar administrador: "+(error.message||error));
+ }
+});
+
+$("logoutButton").addEventListener("click",async()=>{
+ await signOut(auth);
+});
+
+$("createForm").addEventListener("submit",createReseller);
+$("creditForm").addEventListener("submit",changeCredits);
+$("refreshButton").addEventListener("click",refreshAll);
+$("historyRefresh").addEventListener("click",loadHistory);
+
+$("resellerList").addEventListener("click",event=>{
+ const toggle=event.target.closest("[data-toggle]");
+ const assign=event.target.closest("[data-assign]");
+ if(toggle) toggleReseller(toggle.dataset.toggle);
+ if(assign){
+  $("creditReseller").value=assign.dataset.assign;
+  document.querySelector('[data-tab="credits"]').click();
+ }
+});
+
+document.querySelectorAll("[data-tab]").forEach(button=>{
+ button.addEventListener("click",()=>{
+  document.querySelectorAll("[data-tab]").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+  ["resellers","create","credits","history"].forEach(tab=>{
+   $("tab-"+tab).classList.toggle("hidden",tab!==button.dataset.tab);
+  });
+ });
 });
 </script>
-
 </body>
 </html>
