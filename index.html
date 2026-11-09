@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080808">
 <title>KING TV PREMIUM - Administración</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#090909;color:#fff;font-family:Arial,sans-serif}
@@ -56,6 +57,7 @@ hr{border:0;border-top:1px solid #333;margin:17px 0}
 @media(max-width:450px){main{padding:12px}header{padding:13px}.brand{font-size:13px}}
 </style>
 </head>
+
 <body>
 
 <section id="loginScreen" class="login-wrap">
@@ -63,24 +65,32 @@ hr{border:0;border-top:1px solid #333;margin:17px 0}
   <div class="crown">👑</div>
   <div class="logo">KING TV</div>
   <div class="subtitle">PREMIUM · PANEL ADMINISTRADOR</div>
+
   <form id="loginForm">
    <label>Correo electrónico</label>
    <input id="email" type="email" autocomplete="username" required placeholder="Correo del administrador">
+
    <label>Contraseña</label>
    <input id="password" type="password" autocomplete="current-password" required placeholder="Tu contraseña">
+
    <button class="primary" id="loginButton">INGRESAR AL PANEL</button>
   </form>
+
   <div id="loginMessage" class="message"></div>
  </div>
 </section>
 
 <section id="appScreen" class="hidden">
+
  <header>
-  <div class="brand">👑 KING TV PREMIUM<small>PANEL DE ADMINISTRACIÓN</small></div>
+  <div class="brand">👑 KING TV PREMIUM
+   <small>PANEL DE ADMINISTRACIÓN</small>
+  </div>
   <button class="secondary" id="logoutButton">SALIR</button>
  </header>
 
  <main>
+
   <div class="welcome">
    <span class="status">● ADMINISTRADOR AUTORIZADO</span>
    <h2>Bienvenido al panel KING TV</h2>
@@ -88,9 +98,20 @@ hr{border:0;border-top:1px solid #333;margin:17px 0}
   </div>
 
   <div class="grid">
-   <div class="stat"><span>Revendedores</span><strong id="totalResellers">0</strong></div>
-   <div class="stat"><span>Créditos en revendedores</span><strong id="totalCredits">0</strong></div>
-   <div class="stat"><span>Revendedores activos</span><strong id="activeResellers">0</strong></div>
+   <div class="stat">
+    <span>Revendedores</span>
+    <strong id="totalResellers">0</strong>
+   </div>
+
+   <div class="stat">
+    <span>Créditos en revendedores</span>
+    <strong id="totalCredits">0</strong>
+   </div>
+
+   <div class="stat">
+    <span>Revendedores activos</span>
+    <strong id="activeResellers">0</strong>
+   </div>
   </div>
 
   <div class="tabs">
@@ -103,56 +124,81 @@ hr{border:0;border-top:1px solid #333;margin:17px 0}
   <section id="tab-resellers" class="panel">
    <h3>👥 Lista de revendedores</h3>
    <button class="secondary" id="refreshButton">ACTUALIZAR LISTA</button>
-   <div id="resellerList"><p class="empty">Cargando...</p></div>
+   <div id="resellerList">
+    <p class="empty">Cargando...</p>
+   </div>
   </section>
 
   <section id="tab-create" class="panel hidden">
    <h3>➕ Crear revendedor</h3>
+
    <form id="createForm">
     <label>Nombre del revendedor</label>
     <input id="newName" required maxlength="80" placeholder="Nombre completo">
+
     <label>Correo electrónico</label>
     <input id="newEmail" type="email" required placeholder="Correo del revendedor">
+
     <label>Contraseña inicial</label>
     <input id="newPassword" type="password" required minlength="6" placeholder="Mínimo 6 caracteres">
-    <p class="notice">La cuenta se creará con rol revendedor, activa y con 0 créditos. La sesión de administrador se conservará.</p>
+
+    <p class="notice">
+     La cuenta se creará con rol revendedor, activa y con 0 créditos.
+     La sesión de administrador se conservará.
+    </p>
+
     <button class="primary" id="createButton">CREAR REVENDEDOR</button>
    </form>
+
    <div id="createMessage" class="message"></div>
   </section>
 
   <section id="tab-credits" class="panel hidden">
    <h3>🪙 Asignar o descontar créditos</h3>
+
    <form id="creditForm">
     <label>Seleccionar revendedor</label>
     <select id="creditReseller" required>
      <option value="">Selecciona un revendedor</option>
     </select>
+
     <label>Operación</label>
     <select id="creditOperation">
      <option value="sumar">Asignar créditos</option>
      <option value="restar">Descontar créditos</option>
     </select>
+
     <label>Cantidad de créditos</label>
     <input id="creditAmount" type="number" min="1" step="1" required placeholder="Ejemplo: 50">
+
     <button class="primary" id="creditButton">CONFIRMAR MOVIMIENTO</button>
    </form>
+
    <div id="creditMessage" class="message"></div>
+
    <hr>
-   <p class="notice">Equivalencias: 1 mes = 1 crédito · 3 meses = 3 créditos · 6 meses = 6 créditos · 12 meses = 12 créditos.</p>
+
+   <p class="notice">
+    Equivalencias: 1 mes = 1 crédito · 3 meses = 3 créditos ·
+    6 meses = 6 créditos · 12 meses = 12 créditos.
+   </p>
   </section>
 
   <section id="tab-history" class="panel hidden">
    <h3>📋 Historial de movimientos</h3>
    <button class="secondary" id="historyRefresh">ACTUALIZAR HISTORIAL</button>
-   <div id="movementList"><p class="empty">Cargando...</p></div>
+   <div id="movementList">
+    <p class="empty">Cargando...</p>
+   </div>
   </section>
 
   <div class="footer">KING TV PREMIUM © 2026</div>
+
  </main>
 </section>
 
 <script type="module">
+
 import {initializeApp}
  from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
@@ -167,10 +213,9 @@ import {
  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-// CONSERVA TU CONFIGURACIÓN ORIGINAL DE FIREBASE.
-// Sustituye el marcador de apiKey por el valor que ya tienes.
+// CONFIGURACIÓN FIREBASE KING TV PREMIUM
 const firebaseConfig = {
- apiKey:"PEGA_AQUI_TU_API_KEY_ACTUAL",
+ apiKey:"AIzaSyCcBBeW4mmjPXt53IYUaqVVWAESkqbVr5c",
  authDomain:"king-tv-premium.firebaseapp.com",
  projectId:"king-tv-premium",
  storageBucket:"king-tv-premium.firebasestorage.app",
@@ -184,12 +229,13 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Aplicación secundaria: permite crear cuentas sin cerrar
+// Aplicación secundaria para crear cuentas sin cerrar
 // la sesión principal del administrador.
 const secondaryApp = initializeApp(firebaseConfig,"resellerCreator");
 const secondaryAuth = getAuth(secondaryApp);
 
 const $ = id => document.getElementById(id);
+
 let currentUser = null;
 let resellers = [];
 
@@ -199,7 +245,11 @@ function message(id,text){
 
 function escapeHTML(value){
  return String(value ?? "").replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
  })[c]);
 }
 
@@ -217,11 +267,18 @@ function showApp(user){
 
 function setBusy(button,busy,text){
  button.disabled=busy;
- if(busy) button.dataset.oldText=button.textContent;
- button.textContent=busy ? text : (button.dataset.oldText || button.textContent);
+
+ if(busy){
+  button.dataset.oldText=button.textContent;
+ }
+
+ button.textContent=busy
+  ? text
+  : (button.dataset.oldText || button.textContent);
 }
 
 async function verifyAdmin(user){
+
  if(!user || user.uid!==ADMIN_UID){
   await signOut(auth);
   showLogin("Acceso denegado: cuenta no autorizada.");
@@ -248,17 +305,22 @@ async function verifyAdmin(user){
 }
 
 async function loadResellers(){
+
  const snap=await getDocs(collection(db,"usuarios"));
+
  resellers=[];
 
  snap.forEach(d=>{
   const data=d.data();
+
   if(data.rol==="revendedor"){
    resellers.push({uid:d.id,...data});
   }
  });
 
- resellers.sort((a,b)=>String(a.nombre||"").localeCompare(String(b.nombre||"")));
+ resellers.sort((a,b)=>
+  String(a.nombre||"").localeCompare(String(b.nombre||""))
+ );
 
  renderResellers();
  renderStats();
@@ -266,67 +328,106 @@ async function loadResellers(){
 }
 
 function renderStats(){
+
  $("totalResellers").textContent=resellers.length;
- $("activeResellers").textContent=resellers.filter(r=>r.activo===true).length;
+
+ $("activeResellers").textContent=
+  resellers.filter(r=>r.activo===true).length;
 
  // Suma los créditos de los revendedores.
- // No representa un saldo propio del administrador.
+ // No representa un saldo del administrador.
  $("totalCredits").textContent=resellers.reduce(
   (sum,r)=>sum+Math.max(0,Number(r.creditos)||0),0
  );
 }
 
 function renderResellerOptions(){
+
  const select=$("creditReseller");
  const old=select.value;
 
- select.innerHTML='<option value="">Selecciona un revendedor</option>';
+ select.innerHTML=
+  '<option value="">Selecciona un revendedor</option>';
 
  resellers.forEach(r=>{
+
   const option=document.createElement("option");
+
   option.value=r.uid;
-  option.textContent=(r.nombre||r.email||r.uid)+" · "+(Number(r.creditos)||0)+" créditos"+(r.activo===true?"":" · INACTIVO");
+
+  option.textContent=
+   (r.nombre||r.email||r.uid)+
+   " · "+(Number(r.creditos)||0)+" créditos"+
+   (r.activo===true?"":" · INACTIVO");
+
   select.appendChild(option);
  });
 
- if(resellers.some(r=>r.uid===old)) select.value=old;
+ if(resellers.some(r=>r.uid===old)){
+  select.value=old;
+ }
 }
 
 function renderResellers(){
+
  const area=$("resellerList");
 
  if(!resellers.length){
-  area.innerHTML='<p class="empty">Todavía no hay revendedores registrados.</p>';
+  area.innerHTML=
+   '<p class="empty">Todavía no hay revendedores registrados.</p>';
   return;
  }
 
  area.innerHTML=resellers.map(r=>{
+
   const active=r.activo===true;
 
-  return `<div class="item">
-   <strong>${escapeHTML(r.nombre||"Sin nombre")}</strong>
-   <small>${escapeHTML(r.email||"Sin correo")}</small>
-   <small>UID: ${escapeHTML(r.uid)}</small>
-   <small>Saldo: <strong>${Number(r.creditos)||0} créditos</strong></small>
-   <small>Estado: ${active?"🟢 ACTIVO":"🔴 INACTIVO"}</small>
-   <div class="actions">
-    <button class="${active?"danger":"primary"}" data-toggle="${escapeHTML(r.uid)}">${active?"DESACTIVAR":"ACTIVAR"}</button>
-    <button class="secondary" data-assign="${escapeHTML(r.uid)}">ASIGNAR CRÉDITOS</button>
+  return `
+   <div class="item">
+    <strong>${escapeHTML(r.nombre||"Sin nombre")}</strong>
+
+    <small>${escapeHTML(r.email||"Sin correo")}</small>
+
+    <small>UID: ${escapeHTML(r.uid)}</small>
+
+    <small>
+     Saldo:
+     <strong>${Number(r.creditos)||0} créditos</strong>
+    </small>
+
+    <small>Estado: ${active?"🟢 ACTIVO":"🔴 INACTIVO"}</small>
+
+    <div class="actions">
+     <button
+      class="${active?"danger":"primary"}"
+      data-toggle="${escapeHTML(r.uid)}">
+      ${active?"DESACTIVAR":"ACTIVAR"}
+     </button>
+
+     <button
+      class="secondary"
+      data-assign="${escapeHTML(r.uid)}">
+      ASIGNAR CRÉDITOS
+     </button>
+    </div>
    </div>
-  </div>`;
+  `;
  }).join("");
 }
 
 async function refreshAll(){
+
  try{
   await loadResellers();
   await loadHistory();
+
  }catch(error){
   alert("Error al actualizar: "+(error.message||error));
  }
 }
 
 async function createReseller(event){
+
  event.preventDefault();
 
  const name=$("newName").value.trim();
@@ -335,7 +436,10 @@ async function createReseller(event){
  const button=$("createButton");
 
  if(!name || !email || password.length<6){
-  message("createMessage","Completa los datos. La contraseña debe tener al menos 6 caracteres.");
+  message(
+   "createMessage",
+   "Completa los datos. La contraseña debe tener al menos 6 caracteres."
+  );
   return;
  }
 
@@ -350,11 +454,15 @@ async function createReseller(event){
  let newAccount=null;
 
  try{
-  const credential=await createUserWithEmailAndPassword(secondaryAuth,email,password);
+
+  const credential=await createUserWithEmailAndPassword(
+   secondaryAuth,email,password
+  );
+
   newAccount=credential.user;
 
-  // Todo revendedor nuevo comienza con cero créditos.
-  // No se descuenta ningún crédito del administrador.
+  // NUEVO REVENDEDOR: SIEMPRE COMIENZA CON 0 CRÉDITOS.
+  // NO SE DESCUENTAN CRÉDITOS DEL ADMINISTRADOR.
   await setDoc(doc(db,"usuarios",newAccount.uid),{
    nombre:name,
    email:email,
@@ -368,23 +476,38 @@ async function createReseller(event){
   await signOut(secondaryAuth);
 
   $("createForm").reset();
-  message("createMessage","✅ Revendedor creado correctamente con 0 créditos.");
+
+  message(
+   "createMessage",
+   "✅ Revendedor creado correctamente con 0 créditos."
+  );
+
   await loadResellers();
 
  }catch(error){
+
   console.error(error);
 
   if(newAccount){
    try{
     await deleteUser(newAccount);
    }catch(cleanError){
-    console.error("No se pudo eliminar la cuenta incompleta:",cleanError);
+    console.error(
+     "No se pudo eliminar la cuenta incompleta:",
+     cleanError
+    );
    }
   }
 
-  try{await signOut(secondaryAuth)}catch(e){}
+  try{
+   await signOut(secondaryAuth);
+  }catch(e){}
 
-  message("createMessage","No se pudo crear el revendedor: "+(error.code||error.message));
+  message(
+   "createMessage",
+   "No se pudo crear el revendedor: "+
+   (error.code||error.message)
+  );
 
  }finally{
   setBusy(button,false);
@@ -392,6 +515,7 @@ async function createReseller(event){
 }
 
 async function changeCredits(event){
+
  event.preventDefault();
 
  const uid=$("creditReseller").value;
@@ -400,7 +524,10 @@ async function changeCredits(event){
  const button=$("creditButton");
 
  if(!uid || !Number.isSafeInteger(amount) || amount<=0){
-  message("creditMessage","Selecciona un revendedor e ingresa una cantidad entera mayor que cero.");
+  message(
+   "creditMessage",
+   "Selecciona un revendedor e ingresa una cantidad entera mayor que cero."
+  );
   return;
  }
 
@@ -412,7 +539,10 @@ async function changeCredits(event){
  }
 
  if(reseller.activo!==true){
-  message("creditMessage","Este revendedor está desactivado. Actívalo antes de modificar sus créditos.");
+  message(
+   "creditMessage",
+   "Este revendedor está desactivado. Actívalo antes de modificar sus créditos."
+  );
   return;
  }
 
@@ -420,51 +550,83 @@ async function changeCredits(event){
  message("creditMessage","Registrando operación segura...");
 
  try{
+
   await runTransaction(db,async transaction=>{
+
    const userRef=doc(db,"usuarios",uid);
    const userSnap=await transaction.get(userRef);
 
-   if(!userSnap.exists()) throw new Error("El revendedor ya no existe.");
+   if(!userSnap.exists()){
+    throw new Error("El revendedor ya no existe.");
+   }
 
    const data=userSnap.data();
 
-   if(data.rol!=="revendedor") throw new Error("El usuario seleccionado no es revendedor.");
-   if(data.activo!==true) throw new Error("El revendedor está inactivo.");
+   if(data.rol!=="revendedor"){
+    throw new Error("El usuario seleccionado no es revendedor.");
+   }
+
+   if(data.activo!==true){
+    throw new Error("El revendedor está inactivo.");
+   }
 
    const before=Number(data.creditos)||0;
-   const after=operation==="sumar" ? before+amount : before-amount;
+
+   const after=operation==="sumar"
+    ? before+amount
+    : before-amount;
 
    if(!Number.isSafeInteger(after) || after<0){
-    throw new Error("Saldo insuficiente. No se permiten saldos negativos.");
+    throw new Error(
+     "Saldo insuficiente. No se permiten saldos negativos."
+    );
    }
 
    const movementRef=doc(collection(db,"movimientos"));
 
-   transaction.update(userRef,{creditos:after});
+   transaction.update(userRef,{
+    creditos:after
+   });
 
    transaction.set(movementRef,{
-    tipo:operation==="sumar"?"asignacion_admin":"descuento_admin",
+    tipo:operation==="sumar"
+     ?"asignacion_admin"
+     :"descuento_admin",
+
     uidRevendedor:uid,
     emailRevendedor:data.email||"",
     nombreRevendedor:data.nombre||"",
+
     cantidad:amount,
     saldoAnterior:before,
     saldoNuevo:after,
+
     adminUid:currentUser.uid,
     adminEmail:currentUser.email||"",
+
     fecha:serverTimestamp()
    });
+
   });
 
   $("creditAmount").value="";
-  message("creditMessage","✅ Operación registrada. Saldo actualizado correctamente.");
+
+  message(
+   "creditMessage",
+   "✅ Operación registrada. Saldo actualizado correctamente."
+  );
 
   await loadResellers();
   await loadHistory();
 
  }catch(error){
+
   console.error(error);
-  message("creditMessage","No se pudo completar: "+(error.message||error));
+
+  message(
+   "creditMessage",
+   "No se pudo completar: "+(error.message||error)
+  );
 
  }finally{
   setBusy(button,false);
@@ -472,57 +634,104 @@ async function changeCredits(event){
 }
 
 async function toggleReseller(uid){
+
  const reseller=resellers.find(r=>r.uid===uid);
+
  if(!reseller) return;
 
  const next=reseller.activo!==true;
  const action=next?"activar":"desactivar";
 
- if(!confirm("¿Confirmas "+action+" a "+(reseller.nombre||reseller.email)+"?")) return;
+ if(!confirm(
+  "¿Confirmas "+action+" a "+
+  (reseller.nombre||reseller.email)+"?"
+ )){
+  return;
+ }
 
  try{
-  await updateDoc(doc(db,"usuarios",uid),{activo:next});
+
+  await updateDoc(doc(db,"usuarios",uid),{
+   activo:next
+  });
+
   await loadResellers();
 
  }catch(error){
-  alert("No se pudo cambiar el estado: "+(error.message||error));
+
+  alert(
+   "No se pudo cambiar el estado: "+
+   (error.message||error)
+  );
  }
 }
 
 async function loadHistory(){
+
  const area=$("movementList");
 
  try{
-  const q=query(collection(db,"movimientos"),orderBy("fecha","desc"),limit(50));
+
+  const q=query(
+   collection(db,"movimientos"),
+   orderBy("fecha","desc"),
+   limit(50)
+  );
+
   const snap=await getDocs(q);
 
   if(snap.empty){
-   area.innerHTML='<p class="empty">Todavía no hay movimientos registrados.</p>';
+   area.innerHTML=
+    '<p class="empty">Todavía no hay movimientos registrados.</p>';
    return;
   }
 
   area.innerHTML=snap.docs.map(d=>{
+
    const m=d.data();
    let date="Fecha pendiente";
 
-   if(m.fecha && m.fecha.toDate) date=m.fecha.toDate().toLocaleString("es-PY");
+   if(m.fecha && m.fecha.toDate){
+    date=m.fecha.toDate().toLocaleString("es-PY");
+   }
 
-   return `<div class="item">
-    <strong>${escapeHTML(m.tipo||"Movimiento")}</strong>
-    <small>Revendedor: ${escapeHTML(m.nombreRevendedor||m.emailRevendedor||m.uidRevendedor||"")}</small>
-    <small>Cantidad: ${Number(m.cantidad)||0} créditos</small>
-    <small>Saldo anterior: ${Number(m.saldoAnterior)||0} · Saldo nuevo: ${Number(m.saldoNuevo)||0}</small>
-    <small>Fecha: ${escapeHTML(date)}</small>
-   </div>`;
+   return `
+    <div class="item">
+     <strong>${escapeHTML(m.tipo||"Movimiento")}</strong>
+
+     <small>
+      Revendedor:
+      ${escapeHTML(
+       m.nombreRevendedor||
+       m.emailRevendedor||
+       m.uidRevendedor||""
+      )}
+     </small>
+
+     <small>Cantidad: ${Number(m.cantidad)||0} créditos</small>
+
+     <small>
+      Saldo anterior: ${Number(m.saldoAnterior)||0}
+      · Saldo nuevo: ${Number(m.saldoNuevo)||0}
+     </small>
+
+     <small>Fecha: ${escapeHTML(date)}</small>
+    </div>
+   `;
   }).join("");
 
  }catch(error){
+
   console.error(error);
-  area.innerHTML='<p class="empty">No se pudo cargar el historial: '+escapeHTML(error.message||error)+'</p>';
+
+  area.innerHTML=
+   '<p class="empty">No se pudo cargar el historial: '+
+   escapeHTML(error.message||error)+'</p>';
  }
 }
 
 $("loginForm").addEventListener("submit",async event=>{
+
  event.preventDefault();
 
  const button=$("loginButton");
@@ -531,6 +740,7 @@ $("loginForm").addEventListener("submit",async event=>{
  message("loginMessage","");
 
  try{
+
   await signInWithEmailAndPassword(
    auth,
    $("email").value.trim(),
@@ -538,7 +748,11 @@ $("loginForm").addEventListener("submit",async event=>{
   );
 
  }catch(error){
-  message("loginMessage","Error de acceso: "+(error.code||error.message));
+
+  message(
+   "loginMessage",
+   "Error de acceso: "+(error.code||error.message)
+  );
 
  }finally{
   setBusy(button,false);
@@ -546,6 +760,7 @@ $("loginForm").addEventListener("submit",async event=>{
 });
 
 onAuthStateChanged(auth,async user=>{
+
  currentUser=user;
 
  if(!user){
@@ -554,6 +769,7 @@ onAuthStateChanged(auth,async user=>{
  }
 
  try{
+
   const valid=await verifyAdmin(user);
 
   if(!valid) return;
@@ -562,8 +778,13 @@ onAuthStateChanged(auth,async user=>{
   await refreshAll();
 
  }catch(error){
+
   console.error(error);
-  showLogin("Error al verificar administrador: "+(error.message||error));
+
+  showLogin(
+   "Error al verificar administrador: "+
+   (error.message||error)
+  );
  }
 });
 
@@ -573,14 +794,18 @@ $("logoutButton").addEventListener("click",async()=>{
 
 $("createForm").addEventListener("submit",createReseller);
 $("creditForm").addEventListener("submit",changeCredits);
+
 $("refreshButton").addEventListener("click",refreshAll);
 $("historyRefresh").addEventListener("click",loadHistory);
 
 $("resellerList").addEventListener("click",event=>{
+
  const toggle=event.target.closest("[data-toggle]");
  const assign=event.target.closest("[data-assign]");
 
- if(toggle) toggleReseller(toggle.dataset.toggle);
+ if(toggle){
+  toggleReseller(toggle.dataset.toggle);
+ }
 
  if(assign){
   $("creditReseller").value=assign.dataset.assign;
@@ -589,15 +814,25 @@ $("resellerList").addEventListener("click",event=>{
 });
 
 document.querySelectorAll("[data-tab]").forEach(button=>{
+
  button.addEventListener("click",()=>{
-  document.querySelectorAll("[data-tab]").forEach(b=>b.classList.remove("active"));
+
+  document.querySelectorAll("[data-tab]").forEach(b=>{
+   b.classList.remove("active");
+  });
+
   button.classList.add("active");
 
   ["resellers","create","credits","history"].forEach(tab=>{
-   $("tab-"+tab).classList.toggle("hidden",tab!==button.dataset.tab);
+   $("tab-"+tab).classList.toggle(
+    "hidden",
+    tab!==button.dataset.tab
+   );
   });
+
  });
 });
+
 </script>
 </body>
 </html>
