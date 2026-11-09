@@ -89,7 +89,7 @@ hr{border:0;border-top:1px solid #333;margin:17px 0}
 
   <div class="grid">
    <div class="stat"><span>Revendedores</span><strong id="totalResellers">0</strong></div>
-   <div class="stat"><span>Créditos disponibles</span><strong id="totalCredits">0</strong></div>
+   <div class="stat"><span>Créditos en revendedores</span><strong id="totalCredits">0</strong></div>
    <div class="stat"><span>Revendedores activos</span><strong id="activeResellers">0</strong></div>
   </div>
 
@@ -167,8 +167,10 @@ import {
  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
+// CONSERVA TU CONFIGURACIÓN ORIGINAL DE FIREBASE.
+// Sustituye el marcador de apiKey por el valor que ya tienes.
 const firebaseConfig = {
- apiKey:"AIzaSyCcBBeW4mmjPXt53IYUaqVVWAESkqbVr5c",
+ apiKey:"PEGA_AQUI_TU_API_KEY_ACTUAL",
  authDomain:"king-tv-premium.firebaseapp.com",
  projectId:"king-tv-premium",
  storageBucket:"king-tv-premium.firebasestorage.app",
@@ -225,31 +227,39 @@ async function verifyAdmin(user){
   showLogin("Acceso denegado: cuenta no autorizada.");
   return false;
  }
+
  const snap=await getDoc(doc(db,"usuarios",ADMIN_UID));
+
  if(!snap.exists()){
   await signOut(auth);
   showLogin("No se encontró el perfil del administrador.");
   return false;
  }
+
  const data=snap.data();
+
  if(data.rol!=="admin" || data.activo!==true){
   await signOut(auth);
   showLogin("El perfil de administrador no está activo o no tiene el rol correcto.");
   return false;
  }
+
  return true;
 }
 
 async function loadResellers(){
  const snap=await getDocs(collection(db,"usuarios"));
  resellers=[];
+
  snap.forEach(d=>{
   const data=d.data();
   if(data.rol==="revendedor"){
    resellers.push({uid:d.id,...data});
   }
  });
+
  resellers.sort((a,b)=>String(a.nombre||"").localeCompare(String(b.nombre||"")));
+
  renderResellers();
  renderStats();
  renderResellerOptions();
@@ -258,30 +268,41 @@ async function loadResellers(){
 function renderStats(){
  $("totalResellers").textContent=resellers.length;
  $("activeResellers").textContent=resellers.filter(r=>r.activo===true).length;
- $("totalCredits").textContent=resellers.reduce((sum,r)=>sum+Math.max(0,Number(r.creditos)||0),0);
+
+ // Suma los créditos de los revendedores.
+ // No representa un saldo propio del administrador.
+ $("totalCredits").textContent=resellers.reduce(
+  (sum,r)=>sum+Math.max(0,Number(r.creditos)||0),0
+ );
 }
 
 function renderResellerOptions(){
  const select=$("creditReseller");
  const old=select.value;
+
  select.innerHTML='<option value="">Selecciona un revendedor</option>';
+
  resellers.forEach(r=>{
   const option=document.createElement("option");
   option.value=r.uid;
   option.textContent=(r.nombre||r.email||r.uid)+" · "+(Number(r.creditos)||0)+" créditos"+(r.activo===true?"":" · INACTIVO");
   select.appendChild(option);
  });
+
  if(resellers.some(r=>r.uid===old)) select.value=old;
 }
 
 function renderResellers(){
  const area=$("resellerList");
+
  if(!resellers.length){
   area.innerHTML='<p class="empty">Todavía no hay revendedores registrados.</p>';
   return;
  }
+
  area.innerHTML=resellers.map(r=>{
   const active=r.activo===true;
+
   return `<div class="item">
    <strong>${escapeHTML(r.nombre||"Sin nombre")}</strong>
    <small>${escapeHTML(r.email||"Sin correo")}</small>
@@ -307,6 +328,7 @@ async function refreshAll(){
 
 async function createReseller(event){
  event.preventDefault();
+
  const name=$("newName").value.trim();
  const email=$("newEmail").value.trim().toLowerCase();
  const password=$("newPassword").value;
@@ -331,6 +353,8 @@ async function createReseller(event){
   const credential=await createUserWithEmailAndPassword(secondaryAuth,email,password);
   newAccount=credential.user;
 
+  // Todo revendedor nuevo comienza con cero créditos.
+  // No se descuenta ningún crédito del administrador.
   await setDoc(doc(db,"usuarios",newAccount.uid),{
    nombre:name,
    email:email,
@@ -349,6 +373,7 @@ async function createReseller(event){
 
  }catch(error){
   console.error(error);
+
   if(newAccount){
    try{
     await deleteUser(newAccount);
@@ -356,8 +381,11 @@ async function createReseller(event){
     console.error("No se pudo eliminar la cuenta incompleta:",cleanError);
    }
   }
+
   try{await signOut(secondaryAuth)}catch(e){}
+
   message("createMessage","No se pudo crear el revendedor: "+(error.code||error.message));
+
  }finally{
   setBusy(button,false);
  }
@@ -365,6 +393,7 @@ async function createReseller(event){
 
 async function changeCredits(event){
  event.preventDefault();
+
  const uid=$("creditReseller").value;
  const operation=$("creditOperation").value;
  const amount=Number($("creditAmount").value);
@@ -374,11 +403,14 @@ async function changeCredits(event){
   message("creditMessage","Selecciona un revendedor e ingresa una cantidad entera mayor que cero.");
   return;
  }
+
  const reseller=resellers.find(r=>r.uid===uid);
+
  if(!reseller){
   message("creditMessage","No se encontró el revendedor.");
   return;
  }
+
  if(reseller.activo!==true){
   message("creditMessage","Este revendedor está desactivado. Actívalo antes de modificar sus créditos.");
   return;
@@ -395,6 +427,7 @@ async function changeCredits(event){
    if(!userSnap.exists()) throw new Error("El revendedor ya no existe.");
 
    const data=userSnap.data();
+
    if(data.rol!=="revendedor") throw new Error("El usuario seleccionado no es revendedor.");
    if(data.activo!==true) throw new Error("El revendedor está inactivo.");
 
@@ -408,6 +441,7 @@ async function changeCredits(event){
    const movementRef=doc(collection(db,"movimientos"));
 
    transaction.update(userRef,{creditos:after});
+
    transaction.set(movementRef,{
     tipo:operation==="sumar"?"asignacion_admin":"descuento_admin",
     uidRevendedor:uid,
@@ -424,12 +458,14 @@ async function changeCredits(event){
 
   $("creditAmount").value="";
   message("creditMessage","✅ Operación registrada. Saldo actualizado correctamente.");
+
   await loadResellers();
   await loadHistory();
 
  }catch(error){
   console.error(error);
   message("creditMessage","No se pudo completar: "+(error.message||error));
+
  }finally{
   setBusy(button,false);
  }
@@ -447,6 +483,7 @@ async function toggleReseller(uid){
  try{
   await updateDoc(doc(db,"usuarios",uid),{activo:next});
   await loadResellers();
+
  }catch(error){
   alert("No se pudo cambiar el estado: "+(error.message||error));
  }
@@ -454,6 +491,7 @@ async function toggleReseller(uid){
 
 async function loadHistory(){
  const area=$("movementList");
+
  try{
   const q=query(collection(db,"movimientos"),orderBy("fecha","desc"),limit(50));
   const snap=await getDocs(q);
@@ -466,6 +504,7 @@ async function loadHistory(){
   area.innerHTML=snap.docs.map(d=>{
    const m=d.data();
    let date="Fecha pendiente";
+
    if(m.fecha && m.fecha.toDate) date=m.fecha.toDate().toLocaleString("es-PY");
 
    return `<div class="item">
@@ -476,6 +515,7 @@ async function loadHistory(){
     <small>Fecha: ${escapeHTML(date)}</small>
    </div>`;
   }).join("");
+
  }catch(error){
   console.error(error);
   area.innerHTML='<p class="empty">No se pudo cargar el historial: '+escapeHTML(error.message||error)+'</p>';
@@ -484,14 +524,22 @@ async function loadHistory(){
 
 $("loginForm").addEventListener("submit",async event=>{
  event.preventDefault();
+
  const button=$("loginButton");
+
  setBusy(button,true,"VERIFICANDO...");
  message("loginMessage","");
 
  try{
-  await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value);
+  await signInWithEmailAndPassword(
+   auth,
+   $("email").value.trim(),
+   $("password").value
+  );
+
  }catch(error){
   message("loginMessage","Error de acceso: "+(error.code||error.message));
+
  }finally{
   setBusy(button,false);
  }
@@ -499,15 +547,20 @@ $("loginForm").addEventListener("submit",async event=>{
 
 onAuthStateChanged(auth,async user=>{
  currentUser=user;
+
  if(!user){
   showLogin();
   return;
  }
+
  try{
   const valid=await verifyAdmin(user);
+
   if(!valid) return;
+
   showApp(user);
   await refreshAll();
+
  }catch(error){
   console.error(error);
   showLogin("Error al verificar administrador: "+(error.message||error));
@@ -526,7 +579,9 @@ $("historyRefresh").addEventListener("click",loadHistory);
 $("resellerList").addEventListener("click",event=>{
  const toggle=event.target.closest("[data-toggle]");
  const assign=event.target.closest("[data-assign]");
+
  if(toggle) toggleReseller(toggle.dataset.toggle);
+
  if(assign){
   $("creditReseller").value=assign.dataset.assign;
   document.querySelector('[data-tab="credits"]').click();
@@ -537,6 +592,7 @@ document.querySelectorAll("[data-tab]").forEach(button=>{
  button.addEventListener("click",()=>{
   document.querySelectorAll("[data-tab]").forEach(b=>b.classList.remove("active"));
   button.classList.add("active");
+
   ["resellers","create","credits","history"].forEach(tab=>{
    $("tab-"+tab).classList.toggle("hidden",tab!==button.dataset.tab);
   });
