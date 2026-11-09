@@ -9,26 +9,21 @@
 
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- background:#080808;
- color:#fff;
- font-family:Arial,sans-serif;
- min-height:100vh;
-}
 :root{
  --orange:#ff6500;
  --gold:#ffca55;
- --dark:#111;
+}
+body{
+ margin:0;background:#080808;color:white;
+ font-family:Arial,sans-serif;min-height:100vh;
 }
 .hidden{display:none!important}
 button,input{font:inherit}
 button{
- border:0;cursor:pointer;
- border-radius:9px;
- padding:13px 18px;
- font-weight:bold;
+ border:0;cursor:pointer;border-radius:9px;
+ padding:13px 18px;font-weight:bold;
 }
+button:disabled{opacity:.6;cursor:wait}
 .primary{
  background:linear-gradient(120deg,#ff6500,#ffb000);
  color:#100800;
@@ -38,111 +33,89 @@ button{
  border:1px solid #444;
 }
 .login-wrap{
- min-height:100vh;
- display:flex;
- align-items:center;
- justify-content:center;
+ min-height:100vh;display:flex;
+ align-items:center;justify-content:center;
  padding:20px;
- background:
- radial-gradient(ellipse at top,#642000 0%,transparent 48%),
- #080808;
+ background:radial-gradient(ellipse at top,#642000 0%,transparent 48%),#080808;
 }
 .login-card{
- width:100%;max-width:390px;
- padding:28px;
- border:1px solid #8c3d10;
- border-radius:18px;
- background:#111;
- box-shadow:0 0 35px #ff590033;
+ width:100%;max-width:430px;padding:28px;
+ border:1px solid #8c3d10;border-radius:18px;
+ background:#111;box-shadow:0 0 35px #ff590033;
 }
 .logo{
- text-align:center;
- color:var(--gold);
- font-size:29px;
- font-weight:1000;
- letter-spacing:2px;
- text-shadow:0 0 15px #ff6500;
+ text-align:center;color:var(--gold);
+ font-size:29px;font-weight:1000;
+ letter-spacing:2px;text-shadow:0 0 15px #ff6500;
 }
 .crown{text-align:center;font-size:43px}
 .subtitle{
- text-align:center;color:#aaa;
- font-size:12px;letter-spacing:2px;
- margin:8px 0 25px;
+ text-align:center;color:#aaa;font-size:12px;
+ letter-spacing:2px;margin:8px 0 25px;
 }
 label{display:block;margin:15px 0 7px;color:#ddd;font-size:13px}
 input{
- width:100%;padding:14px;
- border-radius:9px;
- border:1px solid #444;
- background:#080808;color:white;
- outline:none;
+ width:100%;padding:14px;border-radius:9px;
+ border:1px solid #444;background:#080808;
+ color:white;outline:none;
 }
 input:focus{border-color:var(--orange)}
 .login-card button{width:100%;margin-top:20px}
 .message{
- color:#ff8c66;
- font-size:13px;
- margin-top:15px;
- text-align:center;
- min-height:18px;
+ color:#ff8c66;font-size:13px;
+ margin-top:15px;text-align:center;
+ min-height:18px;line-height:1.5;
 }
 .topbar{
- display:flex;align-items:center;
- justify-content:space-between;
- padding:17px 20px;
- background:#111;
- border-bottom:1px solid #6b310d;
- gap:10px;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:17px 20px;background:#111;
+ border-bottom:1px solid #6b310d;gap:10px;
 }
 .brand{font-weight:900;color:var(--gold);letter-spacing:1px}
 .brand small{display:block;color:#aaa;font-size:10px;margin-top:4px}
 .content{padding:22px;max-width:1100px;margin:auto}
 .welcome{
- padding:22px;
- border:1px solid #74330f;
- border-radius:15px;
- background:linear-gradient(120deg,#241006,#111);
+ padding:22px;border:1px solid #74330f;
+ border-radius:15px;background:linear-gradient(120deg,#241006,#111);
  margin-bottom:20px;
 }
-.welcome h2{margin:0 0 8px;color:var(--gold)}
+.welcome h2{margin:12px 0 8px;color:var(--gold)}
 .welcome p{margin:0;color:#bbb;font-size:14px}
 .grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
  gap:13px;
 }
 .card{
- background:#151515;
- border:1px solid #38302a;
- border-radius:13px;
- padding:19px;
- min-height:115px;
+ background:#151515;border:1px solid #38302a;
+ border-radius:13px;padding:19px;min-height:115px;
 }
 .card .symbol{font-size:25px}
 .card h3{font-size:14px;margin:12px 0 5px}
 .card p{font-size:12px;color:#999;margin:0}
 .section{
- margin-top:22px;
- background:#121212;
- border:1px solid #38302a;
- border-radius:13px;
- padding:19px;
+ margin-top:22px;background:#121212;
+ border:1px solid #38302a;border-radius:13px;padding:19px;
 }
 .section h3{color:var(--gold);margin-top:0}
 .section p{color:#aaa;font-size:13px;line-height:1.6}
 .status{
- display:inline-block;
- color:#75e69a;
- border:1px solid #28633c;
- background:#102319;
- border-radius:20px;
- padding:5px 10px;
- font-size:11px;
+ display:inline-block;color:#75e69a;
+ border:1px solid #28633c;background:#102319;
+ border-radius:20px;padding:5px 10px;font-size:11px;
 }
-.footer{
- text-align:center;color:#666;
- font-size:11px;padding:30px 10px;
+.diagnostic{
+ margin-top:18px;padding:14px;
+ border:1px solid #8c3d10;border-radius:10px;
+ background:#090909;text-align:left;
+ overflow-wrap:anywhere;
 }
+.diagnostic h3{color:var(--gold);margin:0 0 12px;font-size:15px}
+.diagnostic pre{
+ white-space:pre-wrap;overflow-wrap:anywhere;
+ color:#ddd;font-size:12px;line-height:1.6;
+ margin:0;font-family:monospace;
+}
+.footer{text-align:center;color:#666;font-size:11px;padding:30px 10px}
 @media(max-width:420px){
  .topbar{padding:14px 12px}
  .brand{font-size:13px}
@@ -175,6 +148,11 @@ input:focus{border-color:var(--orange)}
    </button>
    <div id="loginMessage" class="message"></div>
   </form>
+
+  <div id="diagnosticBox" class="diagnostic hidden">
+   <h3>🔎 INFORMACIÓN DEL DIAGNÓSTICO</h3>
+   <pre id="diagnosticText"></pre>
+  </div>
  </div>
 </section>
 
@@ -184,9 +162,7 @@ input:focus{border-color:var(--orange)}
    👑 KING TV PREMIUM
    <small>PANEL DE ADMINISTRACIÓN</small>
   </div>
-  <button class="secondary" id="logoutButton">
-   CERRAR SESIÓN
-  </button>
+  <button class="secondary" id="logoutButton">CERRAR SESIÓN</button>
  </header>
 
  <main class="content">
@@ -221,21 +197,11 @@ input:focus{border-color:var(--orange)}
 
   <div class="section">
    <h3>👑 Administración principal</h3>
-   <p>
-    Tu sesión está autenticada y tu identidad fue
-    verificada mediante Firebase Authentication y
-    Firestore.
-   </p>
-   <p>
-    Las herramientas de gestión de revendedores,
-    asignación de créditos y ventas se habilitarán
-    después de configurar sus controles de seguridad.
-   </p>
+   <p>Tu identidad fue verificada mediante Firebase Authentication y Firestore.</p>
+   <p>Las herramientas de gestión se configurarán después de revisar los controles de seguridad.</p>
   </div>
 
-  <div class="footer">
-   KING TV PREMIUM © 2026 · PANEL ADMINISTRADOR
-  </div>
+  <div class="footer">KING TV PREMIUM © 2026 · PANEL ADMINISTRADOR</div>
  </main>
 </section>
 
@@ -253,10 +219,10 @@ import {
 import {
  getFirestore,
  doc,
- getDoc
+ getDocFromServer
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-// CONFIGURACIÓN FIREBASE KING TV PREMIUM
+// CONFIGURACIÓN DEL PROYECTO
 const firebaseConfig = {
  apiKey: "AIzaSyCcBBeW4mmjPXt53IYUaqVVWAESkqbVr5c",
  authDomain: "king-tv-premium.firebaseapp.com",
@@ -266,7 +232,6 @@ const firebaseConfig = {
  appId: "1:573500590466:web:d0d8043676dc90c621a79b"
 };
 
-// ÚNICO UID ADMINISTRADOR AUTORIZADO
 const ADMIN_UID = "oTyoKtREvAVn87qbz8xhqxp8NHm2";
 
 const app = initializeApp(firebaseConfig);
@@ -278,6 +243,10 @@ const appScreen = document.getElementById("appScreen");
 const loginForm = document.getElementById("loginForm");
 const loginMessage = document.getElementById("loginMessage");
 const loginButton = document.getElementById("loginButton");
+const diagnosticBox = document.getElementById("diagnosticBox");
+const diagnosticText = document.getElementById("diagnosticText");
+
+let processingUid = null;
 
 function showLogin(message = "") {
  appScreen.classList.add("hidden");
@@ -285,43 +254,102 @@ function showLogin(message = "") {
  loginMessage.textContent = message;
 }
 
+function showDiagnostic(details) {
+ diagnosticBox.classList.remove("hidden");
+ diagnosticText.textContent = details;
+}
+
+function showApp(user) {
+ loginScreen.classList.add("hidden");
+ appScreen.classList.remove("hidden");
+ document.getElementById("adminEmail").textContent =
+  "Sesión: " + (user.email || "Sin correo");
+}
+
 async function validateAdmin(user) {
- if (!user || user.uid !== ADMIN_UID) {
-  await signOut(auth);
-  showLogin("Acceso denegado. Cuenta no autorizada.");
-  return false;
- }
+ if (!user) return;
+
+ if (processingUid === user.uid) return;
+ processingUid = user.uid;
 
  try {
-  const profileRef = doc(db, "usuarios", ADMIN_UID);
-  const profileSnap = await getDoc(profileRef);
+  showLogin("Verificando identidad y consultando Firestore...");
+  diagnosticBox.classList.add("hidden");
+
+  const diagnostic = [
+   "PROYECTO CONFIGURADO: " + firebaseConfig.projectId,
+   "PROYECTO FIRESTORE: " + db.app.options.projectId,
+   "CORREO AUTENTICADO: " + (user.email || "No disponible"),
+   "UID AUTENTICADO: " + user.uid,
+   "UID ADMINISTRADOR ESPERADO: " + ADMIN_UID,
+   "RUTA CONSULTADA: usuarios/" + ADMIN_UID,
+   "MÉTODO: getDocFromServer"
+  ];
+
+  if (user.uid !== ADMIN_UID) {
+   diagnostic.push("");
+   diagnostic.push("RESULTADO: UID DIFERENTE.");
+   showLogin("Acceso denegado. Esta cuenta no es el administrador principal.");
+   showDiagnostic(diagnostic.join("\n"));
+   return;
+  }
+
+  const profileRef = doc(db, "usuarios", user.uid);
+  const profileSnap = await getDocFromServer(profileRef);
+
+  diagnostic.push("");
+  diagnostic.push("RUTA REAL DEL DOCUMENTO: " + profileRef.path);
+  diagnostic.push("¿EL DOCUMENTO EXISTE?: " + profileSnap.exists());
 
   if (!profileSnap.exists()) {
-   await signOut(auth);
-   showLogin("No existe el perfil administrativo.");
-   return false;
+   diagnostic.push("");
+   diagnostic.push("RESULTADO: FIRESTORE NO ENCONTRÓ EL DOCUMENTO.");
+   diagnostic.push("Comprueba que esté en la base de datos (default),");
+   diagnostic.push("colección usuarios, con el UID indicado.");
+   showLogin("Firestore respondió que el documento no existe.");
+   showDiagnostic(diagnostic.join("\n"));
+   return;
   }
 
   const profile = profileSnap.data();
 
+  diagnostic.push("EMAIL EN FIRESTORE: " + String(profile.email));
+  diagnostic.push("ROL EN FIRESTORE: " + String(profile.rol));
+  diagnostic.push("ACTIVO EN FIRESTORE: " + String(profile.activo));
+
   if (profile.rol !== "admin" || profile.activo !== true) {
-   await signOut(auth);
-   showLogin("La cuenta no tiene permisos administrativos.");
-   return false;
+   diagnostic.push("");
+   diagnostic.push("RESULTADO: EL DOCUMENTO EXISTE,");
+   diagnostic.push("PERO EL ROL O EL ESTADO ACTIVO NO COINCIDE.");
+   showLogin("El perfil existe, pero sus permisos no son válidos.");
+   showDiagnostic(diagnostic.join("\n"));
+   return;
   }
 
-  document.getElementById("adminEmail").textContent =
-   "Sesión: " + user.email;
-
-  loginScreen.classList.add("hidden");
-  appScreen.classList.remove("hidden");
-  return true;
+  diagnostic.push("");
+  diagnostic.push("RESULTADO: ADMINISTRADOR VERIFICADO.");
+  showApp(user);
+  console.log(diagnostic.join("\n"));
 
  } catch (error) {
-  await signOut(auth);
-  showLogin("Error verificando permisos. Revisa Firebase.");
-  console.error(error);
-  return false;
+  console.error("Error de diagnóstico Firebase:", error);
+
+  const diagnostic = [
+   "PROYECTO: " + firebaseConfig.projectId,
+   "UID AUTENTICADO: " + user.uid,
+   "RUTA CONSULTADA: usuarios/" + user.uid,
+   "",
+   "ERROR DEVUELTO POR FIREBASE:",
+   "CÓDIGO: " + (error.code || "No disponible"),
+   "MENSAJE: " + (error.message || "Sin mensaje"),
+   "",
+   "No se modificó ningún documento."
+  ];
+
+  showLogin("No se pudo completar la consulta de Firestore.");
+  showDiagnostic(diagnostic.join("\n"));
+ } finally {
+  processingUid = null;
  }
 }
 
@@ -334,15 +362,16 @@ loginForm.addEventListener("submit", async (event) => {
  loginButton.disabled = true;
  loginButton.textContent = "VERIFICANDO...";
  loginMessage.textContent = "";
+ diagnosticBox.classList.add("hidden");
 
  try {
-  const result = await signInWithEmailAndPassword(
-   auth, email, password
-  );
-  await validateAdmin(result.user);
+  await signInWithEmailAndPassword(auth, email, password);
+  loginMessage.textContent = "Acceso autenticado. Verificando perfil...";
  } catch (error) {
-  console.error(error);
-  showLogin("No se pudo ingresar. Verifica correo y contraseña.");
+  console.error("Error de inicio de sesión:", error);
+  showLogin(
+   "Error de acceso: " + (error.code || error.message)
+  );
  } finally {
   loginButton.disabled = false;
   loginButton.textContent = "INGRESAR AL PANEL";
@@ -351,8 +380,13 @@ loginForm.addEventListener("submit", async (event) => {
 
 document.getElementById("logoutButton").addEventListener(
  "click", async () => {
-  await signOut(auth);
-  showLogin("Sesión cerrada correctamente.");
+  try {
+   await signOut(auth);
+   diagnosticBox.classList.add("hidden");
+   showLogin("Sesión cerrada correctamente.");
+  } catch (error) {
+   console.error(error);
+  }
  }
 );
 
@@ -366,5 +400,4 @@ onAuthStateChanged(auth, async (user) => {
 </script>
 
 </body>
-     </html>
-     
+</html>
