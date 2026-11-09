@@ -798,7 +798,6 @@ $("refreshClients").addEventListener("click",loadClients);
 $("refreshHistory").addEventListener("click",async()=>{
  await loadMovements();
 });
-
 document.querySelectorAll("[data-tab]").forEach(button=>{
   button.addEventListener("click",()=>{
     document.querySelectorAll("[data-tab]").forEach(b=>{
@@ -822,4 +821,3 @@ document.querySelectorAll("[data-tab]").forEach(button=>{
 
 </body>
 </html>
-  
