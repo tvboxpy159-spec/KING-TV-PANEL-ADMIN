@@ -130,7 +130,14 @@ input:focus,select:focus{border-color:#ff7600}
 .empty{color:#999;font-size:13px;padding:12px}
 .notice{color:#aaa;font-size:12px;line-height:1.5}
 .footer{text-align:center;color:#666;font-size:11px;padding:25px}
-hr{border:0;border-top:1px solid #333;margin:17px 0}
+.device-info{
+ background:#21170e;
+ border:1px solid #75400f;
+ border-radius:10px;
+ padding:13px;
+ margin:14px 0
+}
+.device-info strong{color:#ffc65b}
 @media(max-width:450px){
  main{padding:12px}
  header{padding:13px}
@@ -225,6 +232,25 @@ hr{border:0;border-top:1px solid #333;margin:17px 0}
    <label>Confirmar contraseña</label>
    <input id="clientPasswordConfirm" type="password"
     minlength="6" required placeholder="Repetir contraseña">
+
+   <!-- NUEVA OPCIÓN: LÍMITE DE DISPOSITIVOS -->
+   <label>Máximo de dispositivos permitidos</label>
+   <select id="clientDevices" required>
+    <option value="1">1 dispositivo</option>
+    <option value="2">2 dispositivos</option>
+    <option value="3" selected>3 dispositivos</option>
+   </select>
+
+   <div class="device-info">
+    <strong>📱 Control de dispositivos</strong>
+    <p class="notice">
+     Selecciona cuántos dispositivos podrá tener autorizados
+     cada cliente. El valor se guardará en su perfil de Firebase.
+    </p>
+    <p class="notice">
+     Máximo disponible: 3 dispositivos.
+    </p>
+   </div>
 
    <label>Duración de la suscripción</label>
    <select id="clientPlan" required>
@@ -481,6 +507,7 @@ async function loadClients(){
     <strong>${escapeHTML(c.nombre||"Cliente")}</strong>
     <small>Correo: ${escapeHTML(c.email||"")}</small>
     <small>Plan: ${planName(Number(c.planMeses)||0)}</small>
+    <small>Dispositivos permitidos: ${Number(c.maxDispositivos)||3}</small>
     <small>Vencimiento: ${formatDate(c.fechaVencimiento)}</small>
     <small>Estado: ${c.activo===true?"🟢 ACTIVO":"🔴 INACTIVO"}</small>
    </div>
@@ -526,6 +553,7 @@ async function loadMovements(){
 
   if(!list.length){
    area.innerHTML='<p class="empty">No tienes movimientos todavía.</p>';
+   $("salesList").innerHTML='<p class="empty">Todavía no tienes ventas.</p>';
    return;
   }
 
@@ -546,6 +574,7 @@ async function loadMovements(){
      <strong>${escapeHTML(m.nombreCliente||"Venta")}</strong>
      <small>Correo: ${escapeHTML(m.emailCliente||"")}</small>
      <small>Plan: ${planName(Number(m.planMeses)||0)}</small>
+     <small>Dispositivos permitidos: ${Number(m.maxDispositivos)||3}</small>
      <small>Créditos utilizados: ${Number(m.cantidad)||0}</small>
      <small>Fecha: ${formatDate(m.fecha)}</small>
     </div>
@@ -587,6 +616,10 @@ async function createClient(event){
  const password = $("clientPassword").value;
  const confirmPassword = $("clientPasswordConfirm").value;
  const months = Number($("clientPlan").value);
+
+ // NUEVO: leer el límite de dispositivos seleccionado.
+ const maxDevices = Number($("clientDevices").value);
+
  const button = $("createClientButton");
 
  if(!name || name.length>80 || !email){
@@ -609,6 +642,12 @@ async function createClient(event){
   return;
  }
 
+ // NUEVO: validar el límite de dispositivos.
+ if(![1,2,3].includes(maxDevices)){
+  message("createClientMessage","Límite de dispositivos no válido.");
+  return;
+ }
+
  if(!currentUser){
   message("createClientMessage","La sesión no es válida.");
   return;
@@ -622,7 +661,7 @@ async function createClient(event){
 
  try{
 
-  // Primero crear la cuenta de Authentication secundaria.
+  // Crear la cuenta de Authentication secundaria.
   const credential = await createUserWithEmailAndPassword(
    secondaryAuth,email,password
   );
@@ -676,6 +715,11 @@ async function createClient(event){
     planMeses:months,
     creditosConsumidos:months,
     fechaVencimiento:expiration,
+
+    // NUEVO: CONFIGURACIÓN DEL LÍMITE DE DISPOSITIVOS.
+    maxDispositivos:maxDevices,
+    dispositivosActivos:[],
+
     movimientoId:movementRef.id
    });
 
@@ -691,6 +735,10 @@ async function createClient(event){
     cantidad:months,
     saldoAnterior:before,
     saldoNuevo:after,
+
+    // NUEVO: guardar también el límite en el historial.
+    maxDispositivos:maxDevices,
+
     fecha:serverTimestamp()
    });
 
@@ -698,7 +746,7 @@ async function createClient(event){
 
   firestoreCreated = true;
 
-  // La cuenta ya está creada y el saldo registrado.
+  // Limpiar formulario. El selector vuelve a 3 dispositivos.
   $("createClientForm").reset();
   $("creditCost").textContent="1 crédito";
 
@@ -709,6 +757,7 @@ async function createClient(event){
    "Plan: "+planName(months)+"\n"+
    "Vencimiento: "+expiration.toDate().toLocaleDateString("es-PY")+
    "\nCréditos descontados: "+months+
+   "\nDispositivos permitidos: "+maxDevices+
    "\nEntregá al cliente su correo y contraseña."
   );
 
@@ -718,7 +767,7 @@ async function createClient(event){
 
   console.error(error);
 
-  // Si la transacción no se completó, eliminar
+  // Si la transacción no se completó, intentar eliminar
   // la cuenta de Authentication recién creada.
   if(newAccount && !firestoreCreated){
    try{
@@ -795,28 +844,31 @@ $("logoutButton").addEventListener("click",async()=>{
 $("createClientForm").addEventListener("submit",createClient);
 
 $("refreshClients").addEventListener("click",loadClients);
+
 $("refreshHistory").addEventListener("click",async()=>{
  await loadMovements();
 });
+
 document.querySelectorAll("[data-tab]").forEach(button=>{
-  button.addEventListener("click",()=>{
-    document.querySelectorAll("[data-tab]").forEach(b=>{
-      b.classList.remove("active");
-    });
-
-    button.classList.add("active");
-
-    document.querySelectorAll("main > section[id^='tab-']").forEach(section=>{
-      section.classList.add("hidden");
-    });
-
-    const selectedTab = $("tab-" + button.dataset.tab);
-
-    if(selectedTab){
-      selectedTab.classList.remove("hidden");
-    }
+ button.addEventListener("click",()=>{
+  document.querySelectorAll("[data-tab]").forEach(b=>{
+   b.classList.remove("active");
   });
+
+  button.classList.add("active");
+
+  document.querySelectorAll("main > section[id^='tab-']").forEach(section=>{
+   section.classList.add("hidden");
+  });
+
+  const selectedTab = $("tab-" + button.dataset.tab);
+
+  if(selectedTab){
+   selectedTab.classList.remove("hidden");
+  }
+ });
 });
+
 </script>
 
 </body>
