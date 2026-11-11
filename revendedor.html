@@ -44,7 +44,6 @@ input:focus,select:focus{border-color:#ff7600}
 .stat{background:#1d1d1d;border:1px solid #39302a;padding:16px;border-radius:11px}
 .stat strong{display:block;color:#ffc65b;font-size:25px;margin-top:8px}
 .stat span{font-size:12px;color:#aaa}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
 .item{background:#1b1b1b;border:1px solid #383838;border-radius:10px;padding:13px;margin:9px 0}
 .item strong{color:#ffc65b}
 .item small{display:block;color:#aaa;margin:6px 0;overflow-wrap:anywhere}
@@ -53,7 +52,6 @@ input:focus,select:focus{border-color:#ff7600}
 .footer{text-align:center;color:#666;font-size:11px;padding:25px}
 .device-info{background:#21170e;border:1px solid #75400f;border-radius:10px;padding:13px;margin:14px 0}
 .device-info strong{color:#ffc65b}
-.error-detail{background:#2b1111;border:1px solid #8c3030;color:#ffd1d1;padding:12px;border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;margin-top:12px}
 @media(max-width:450px){main{padding:12px}header{padding:13px}.brand{font-size:13px}}
 </style>
 </head>
@@ -491,8 +489,8 @@ $("clientPlan").addEventListener("change",()=>{
 
 /*
  * CREACIÓN DE CLIENTES
- * Se registra la etapa exacta para poder identificar
- * si el fallo ocurre en Authentication o Firestore.
+ * Conserva la etapa original del error incluso si después
+ * falla la limpieza de la cuenta de Authentication.
  */
 async function createClient(event){
  event.preventDefault();
@@ -537,13 +535,16 @@ async function createClient(event){
 
  let newAccount = null;
  let firestoreCreated = false;
+
  let stage = "Validación inicial";
+ let failedStage = "";
  let cleanupMessage = "";
 
  setBusy(button,true,"CREANDO CLIENTE...");
  message("createClientMessage","Creando cuenta y verificando créditos...");
 
  try{
+
   stage = "Crear cuenta en Firebase Authentication";
 
   const credential = await createUserWithEmailAndPassword(
@@ -561,7 +562,7 @@ async function createClient(event){
 
   const expiration = calculateExpiration(months);
 
-  stage = "Ejecutar transacción de Firestore";
+  stage = "Leer documento del revendedor dentro de la transacción";
 
   await runTransaction(db,async transaction=>{
 
@@ -587,6 +588,8 @@ async function createClient(event){
    }
 
    const after = before-months;
+
+   stage = "Preparar las tres escrituras de la venta";
 
    transaction.update(resellerRef,{
     creditos:after,
@@ -623,10 +626,11 @@ async function createClient(event){
     maxDispositivos:maxDevices,
     fecha:serverTimestamp()
    });
+
+   stage = "Enviar y autorizar la transacción de Firestore";
   });
 
   firestoreCreated = true;
-
   stage = "Actualizar la pantalla después de la venta";
 
   $("createClientForm").reset();
@@ -647,37 +651,48 @@ async function createClient(event){
 
  }catch(error){
 
+  // Guardar la etapa original ANTES de intentar limpiar la cuenta.
+  failedStage = stage;
+
   console.error("FALLO EN CREACIÓN DE CLIENTE",{
-   etapa:stage,
+   etapaDelFallo:failedStage,
    codigo:error.code||"sin código",
    mensaje:error.message||String(error),
    error:error
   });
 
   if(newAccount && !firestoreCreated){
-   stage = "Limpieza de cuenta incompleta";
 
    try{
     await deleteUser(newAccount);
-    cleanupMessage = "\nLa cuenta incompleta de Authentication fue eliminada.";
-   }catch(cleanError){
-    console.error("No se pudo eliminar la cuenta incompleta:",cleanError);
-    cleanupMessage =
-     "\nATENCIÓN: no se pudo eliminar la cuenta de Authentication. "+
-     "Puede haber quedado creada. Error: "+
-     (cleanError.code||cleanError.message);
-   }
-  }
 
-  const errorCode = error.code || "sin código";
-  const errorText = error.message || String(error);
+    cleanupMessage =
+     "\nLIMPIEZA: la cuenta incompleta de Authentication fue eliminada.";
+
+   }catch(cleanError){
+
+    console.error("No se pudo eliminar la cuenta incompleta:",cleanError);
+
+    cleanupMessage =
+     "\nLIMPIEZA: no se pudo eliminar la cuenta de Authentication."+
+     "\nError de limpieza: "+
+     (cleanError.code||"sin código")+
+     " - "+
+     (cleanError.message||String(cleanError));
+   }
+
+  }else if(firestoreCreated){
+
+   cleanupMessage =
+    "\nLa transacción de Firestore ya se completó. No se eliminó la cuenta.";
+  }
 
   message(
    "createClientMessage",
    "❌ NO SE PUDO COMPLETAR LA CREACIÓN\n\n"+
-   "ETAPA: "+stage+"\n"+
-   "CÓDIGO: "+errorCode+"\n"+
-   "DETALLE: "+errorText+
+   "ETAPA ORIGINAL DEL FALLO: "+failedStage+"\n"+
+   "CÓDIGO: "+(error.code||"sin código")+"\n"+
+   "DETALLE: "+(error.message||String(error))+
    cleanupMessage
   );
 
