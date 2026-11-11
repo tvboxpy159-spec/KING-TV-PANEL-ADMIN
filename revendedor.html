@@ -9,140 +9,52 @@
 
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#090909;color:#fff;
- font-family:Arial,sans-serif
-}
+body{margin:0;background:#090909;color:#fff;font-family:Arial,sans-serif}
 .hidden{display:none!important}
 button,input,select{font:inherit}
-button{
- cursor:pointer;border:0;border-radius:9px;
- padding:12px 16px;font-weight:bold
-}
+button{cursor:pointer;border:0;border-radius:9px;padding:12px 16px;font-weight:bold}
 button:disabled{opacity:.5;cursor:not-allowed}
-.primary{
- background:linear-gradient(120deg,#ff6500,#ffbd38);
- color:#160900
-}
-.secondary{
- background:#292929;color:white;
- border:1px solid #555
-}
-.danger{
- background:#581b12;color:#fff;
- border:1px solid #a43c22
-}
-header{
- padding:16px;background:#111;
- border-bottom:1px solid #74330f;
- display:flex;justify-content:space-between;
- align-items:center;gap:10px
-}
+.primary{background:linear-gradient(120deg,#ff6500,#ffbd38);color:#160900}
+.secondary{background:#292929;color:white;border:1px solid #555}
+.danger{background:#581b12;color:#fff;border:1px solid #a43c22}
+header{padding:16px;background:#111;border-bottom:1px solid #74330f;display:flex;justify-content:space-between;align-items:center;gap:10px}
 .brand{color:#ffc65b;font-weight:900;letter-spacing:1px}
-.brand small{
- display:block;color:#aaa;font-size:10px;margin-top:5px
-}
+.brand small{display:block;color:#aaa;font-size:10px;margin-top:5px}
 main{max-width:1100px;margin:auto;padding:18px}
-.login-wrap{
- min-height:100vh;display:flex;
- align-items:center;justify-content:center;
- padding:20px;
- background:radial-gradient(ellipse at top,#632300,transparent 50%),#080808
-}
-.login-card{
- width:100%;max-width:420px;
- background:#131313;border:1px solid #87400f;
- border-radius:17px;padding:26px;
- box-shadow:0 0 30px #ff650022
-}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at top,#632300,transparent 50%),#080808}
+.login-card{width:100%;max-width:420px;background:#131313;border:1px solid #87400f;border-radius:17px;padding:26px;box-shadow:0 0 30px #ff650022}
 .crown{text-align:center;font-size:43px}
-.logo{
- text-align:center;color:#ffc65b;
- font-size:29px;font-weight:1000;letter-spacing:2px
-}
-.subtitle{
- text-align:center;color:#aaa;font-size:11px;
- margin:8px 0 25px;letter-spacing:2px
-}
+.logo{text-align:center;color:#ffc65b;font-size:29px;font-weight:1000;letter-spacing:2px}
+.subtitle{text-align:center;color:#aaa;font-size:11px;margin:8px 0 25px;letter-spacing:2px}
 label{display:block;margin:14px 0 7px;font-size:13px;color:#ddd}
-input,select{
- width:100%;padding:13px;border:1px solid #444;
- border-radius:9px;background:#080808;color:white;outline:none
-}
+input,select{width:100%;padding:13px;border:1px solid #444;border-radius:9px;background:#080808;color:white;outline:none}
 input:focus,select:focus{border-color:#ff7600}
 .login-card button{width:100%;margin-top:20px}
-.message{
- font-size:13px;color:#ffb18b;
- line-height:1.5;margin-top:13px;white-space:pre-wrap
-}
-.welcome{
- background:linear-gradient(120deg,#291205,#111);
- border:1px solid #74330f;border-radius:13px;
- padding:19px;margin-bottom:17px
-}
+.message{font-size:13px;color:#ffb18b;line-height:1.5;margin-top:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.welcome{background:linear-gradient(120deg,#291205,#111);border:1px solid #74330f;border-radius:13px;padding:19px;margin-bottom:17px}
 .welcome h2{color:#ffc65b;margin:10px 0}
 .welcome p{color:#bbb;font-size:13px;margin:5px 0}
-.status{
- display:inline-block;border:1px solid #27653c;
- background:#102719;color:#8df0a8;
- padding:5px 10px;border-radius:20px;font-size:11px
-}
-.tabs{
- display:flex;gap:8px;overflow-x:auto;padding:3px 0 14px
-}
-.tabs button{
- white-space:nowrap;background:#222;color:#ddd;
- border:1px solid #444
-}
-.tabs button.active{
- background:#ff7600;color:#170900;border-color:#ff7600
-}
-.panel{
- background:#141414;border:1px solid #39302a;
- border-radius:13px;padding:17px;margin:12px 0
-}
+.status{display:inline-block;border:1px solid #27653c;background:#102719;color:#8df0a8;padding:5px 10px;border-radius:20px;font-size:11px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:3px 0 14px}
+.tabs button{white-space:nowrap;background:#222;color:#ddd;border:1px solid #444}
+.tabs button.active{background:#ff7600;color:#170900;border-color:#ff7600}
+.panel{background:#141414;border:1px solid #39302a;border-radius:13px;padding:17px;margin:12px 0}
 .panel h3{color:#ffc65b;margin:0 0 15px}
-.grid{
- display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
- gap:10px
-}
-.stat{
- background:#1d1d1d;border:1px solid #39302a;
- padding:16px;border-radius:11px
-}
-.stat strong{
- display:block;color:#ffc65b;font-size:25px;margin-top:8px
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+.stat{background:#1d1d1d;border:1px solid #39302a;padding:16px;border-radius:11px}
+.stat strong{display:block;color:#ffc65b;font-size:25px;margin-top:8px}
 .stat span{font-size:12px;color:#aaa}
-.form-grid{
- display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
- gap:12px
-}
-.form-grid button{align-self:end;min-height:45px}
-.item{
- background:#1b1b1b;border:1px solid #383838;
- border-radius:10px;padding:13px;margin:9px 0
-}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.item{background:#1b1b1b;border:1px solid #383838;border-radius:10px;padding:13px;margin:9px 0}
 .item strong{color:#ffc65b}
-.item small{
- display:block;color:#aaa;margin:6px 0;overflow-wrap:anywhere
-}
+.item small{display:block;color:#aaa;margin:6px 0;overflow-wrap:anywhere}
 .empty{color:#999;font-size:13px;padding:12px}
 .notice{color:#aaa;font-size:12px;line-height:1.5}
 .footer{text-align:center;color:#666;font-size:11px;padding:25px}
-.device-info{
- background:#21170e;
- border:1px solid #75400f;
- border-radius:10px;
- padding:13px;
- margin:14px 0
-}
+.device-info{background:#21170e;border:1px solid #75400f;border-radius:10px;padding:13px;margin:14px 0}
 .device-info strong{color:#ffc65b}
-@media(max-width:450px){
- main{padding:12px}
- header{padding:13px}
- .brand{font-size:13px}
-}
+.error-detail{background:#2b1111;border:1px solid #8c3030;color:#ffd1d1;padding:12px;border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;margin-top:12px}
+@media(max-width:450px){main{padding:12px}header{padding:13px}.brand{font-size:13px}}
 </style>
 </head>
 
@@ -156,12 +68,10 @@ input:focus,select:focus{border-color:#ff7600}
 
   <form id="loginForm">
    <label>Correo electrónico</label>
-   <input id="email" type="email" autocomplete="username"
-    required placeholder="Tu correo">
+   <input id="email" type="email" autocomplete="username" required placeholder="Tu correo">
 
    <label>Contraseña</label>
-   <input id="password" type="password"
-    autocomplete="current-password" required placeholder="Tu contraseña">
+   <input id="password" type="password" autocomplete="current-password" required placeholder="Tu contraseña">
 
    <button class="primary" id="loginButton">INGRESAR AL PANEL</button>
   </form>
@@ -216,24 +126,18 @@ input:focus,select:focus{border-color:#ff7600}
   <h3>➕ Crear nuevo cliente</h3>
 
   <form id="createClientForm">
-
    <label>Nombre del cliente</label>
-   <input id="clientName" maxlength="80" required
-    placeholder="Nombre completo">
+   <input id="clientName" maxlength="80" required placeholder="Nombre completo">
 
    <label>Correo electrónico del cliente</label>
-   <input id="clientEmail" type="email" required
-    placeholder="cliente@correo.com">
+   <input id="clientEmail" type="email" required placeholder="cliente@correo.com">
 
    <label>Contraseña inicial</label>
-   <input id="clientPassword" type="password"
-    minlength="6" required placeholder="Mínimo 6 caracteres">
+   <input id="clientPassword" type="password" minlength="6" required placeholder="Mínimo 6 caracteres">
 
    <label>Confirmar contraseña</label>
-   <input id="clientPasswordConfirm" type="password"
-    minlength="6" required placeholder="Repetir contraseña">
+   <input id="clientPasswordConfirm" type="password" minlength="6" required placeholder="Repetir contraseña">
 
-   <!-- NUEVA OPCIÓN: LÍMITE DE DISPOSITIVOS -->
    <label>Máximo de dispositivos permitidos</label>
    <select id="clientDevices" required>
     <option value="1">1 dispositivo</option>
@@ -243,13 +147,8 @@ input:focus,select:focus{border-color:#ff7600}
 
    <div class="device-info">
     <strong>📱 Control de dispositivos</strong>
-    <p class="notice">
-     Selecciona cuántos dispositivos podrá tener autorizados
-     cada cliente. El valor se guardará en su perfil de Firebase.
-    </p>
-    <p class="notice">
-     Máximo disponible: 3 dispositivos.
-    </p>
+    <p class="notice">Selecciona cuántos dispositivos podrá tener autorizados cada cliente. El valor se guardará en su perfil de Firebase.</p>
+    <p class="notice">Máximo disponible: 3 dispositivos.</p>
    </div>
 
    <label>Duración de la suscripción</label>
@@ -266,14 +165,9 @@ input:focus,select:focus{border-color:#ff7600}
     <p class="notice">Tu saldo actual: <strong id="balancePreview">0</strong></p>
    </div>
 
-   <p class="notice">
-    La cuenta se creará en Firebase Authentication.
-    La contraseña no se guardará en Firestore.
-   </p>
+   <p class="notice">La cuenta se creará en Firebase Authentication. La contraseña no se guardará en Firestore.</p>
 
-   <button class="primary" id="createClientButton">
-    CREAR CLIENTE Y DESCONTAR CRÉDITOS
-   </button>
+   <button class="primary" id="createClientButton">CREAR CLIENTE Y DESCONTAR CRÉDITOS</button>
   </form>
 
   <div id="createClientMessage" class="message"></div>
@@ -281,29 +175,19 @@ input:focus,select:focus{border-color:#ff7600}
 
  <section id="tab-clients" class="panel hidden">
   <h3>👥 Mis clientes</h3>
-  <button class="secondary" id="refreshClients">
-   ACTUALIZAR CLIENTES
-  </button>
-  <div id="clientList">
-   <p class="empty">Cargando...</p>
-  </div>
+  <button class="secondary" id="refreshClients">ACTUALIZAR CLIENTES</button>
+  <div id="clientList"><p class="empty">Cargando...</p></div>
  </section>
 
  <section id="tab-sales" class="panel hidden">
   <h3>📊 Mis ventas</h3>
-  <div id="salesList">
-   <p class="empty">Cargando...</p>
-  </div>
+  <div id="salesList"><p class="empty">Cargando...</p></div>
  </section>
 
  <section id="tab-history" class="panel hidden">
   <h3>📋 Historial de movimientos</h3>
-  <button class="secondary" id="refreshHistory">
-   ACTUALIZAR HISTORIAL
-  </button>
-  <div id="movementList">
-   <p class="empty">Cargando...</p>
-  </div>
+  <button class="secondary" id="refreshHistory">ACTUALIZAR HISTORIAL</button>
+  <div id="movementList"><p class="empty">Cargando...</p></div>
  </section>
 
  <section id="tab-profile" class="panel hidden">
@@ -312,7 +196,6 @@ input:focus,select:focus{border-color:#ff7600}
  </section>
 
  <div class="footer">KING TV PREMIUM © 2026</div>
-
 </main>
 </section>
 
@@ -356,8 +239,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Authentication secundaria para crear clientes
-// sin cerrar la sesión del revendedor.
 const secondaryApp = initializeApp(firebaseConfig,"clientCreator");
 const secondaryAuth = getAuth(secondaryApp);
 
@@ -407,7 +288,7 @@ function planName(months){
 
 function formatDate(value){
  if(!value || !value.toDate) return "Pendiente";
- return value.toDate().toLocaleDateString("es-PY");
+ return value.toDate().toLocaleDateString("es-UY");
 }
 
 function calculateExpiration(months){
@@ -514,7 +395,7 @@ async function loadClients(){
   `).join("");
 
  }catch(error){
-  console.error(error);
+  console.error("Error cargando clientes:",error);
   area.innerHTML =
    '<p class="empty">Error al cargar clientes: '+
    escapeHTML(error.message)+'</p>';
@@ -582,7 +463,7 @@ async function loadMovements(){
    : '<p class="empty">Todavía no tienes ventas.</p>';
 
  }catch(error){
-  console.error(error);
+  console.error("Error cargando movimientos:",error);
   area.innerHTML =
    '<p class="empty">Error al cargar movimientos: '+
    escapeHTML(error.message)+'</p>';
@@ -597,8 +478,8 @@ async function refreshAll(){
    loadMovements()
   ]);
  }catch(error){
-  console.error(error);
-  alert("Error al actualizar: "+error.message);
+  console.error("Error actualizando panel:",error);
+  alert("Error al actualizar el panel: "+(error.code||"")+"\n"+error.message);
  }
 }
 
@@ -608,6 +489,11 @@ $("clientPlan").addEventListener("change",()=>{
   plan+" "+(plan===1?"crédito":"créditos");
 });
 
+/*
+ * CREACIÓN DE CLIENTES
+ * Se registra la etapa exacta para poder identificar
+ * si el fallo ocurre en Authentication o Firestore.
+ */
 async function createClient(event){
  event.preventDefault();
 
@@ -616,10 +502,7 @@ async function createClient(event){
  const password = $("clientPassword").value;
  const confirmPassword = $("clientPasswordConfirm").value;
  const months = Number($("clientPlan").value);
-
- // NUEVO: leer el límite de dispositivos seleccionado.
  const maxDevices = Number($("clientDevices").value);
-
  const button = $("createClientButton");
 
  if(!name || name.length>80 || !email){
@@ -642,7 +525,6 @@ async function createClient(event){
   return;
  }
 
- // NUEVO: validar el límite de dispositivos.
  if(![1,2,3].includes(maxDevices)){
   message("createClientMessage","Límite de dispositivos no válido.");
   return;
@@ -655,13 +537,15 @@ async function createClient(event){
 
  let newAccount = null;
  let firestoreCreated = false;
+ let stage = "Validación inicial";
+ let cleanupMessage = "";
 
  setBusy(button,true,"CREANDO CLIENTE...");
  message("createClientMessage","Creando cuenta y verificando créditos...");
 
  try{
+  stage = "Crear cuenta en Firebase Authentication";
 
-  // Crear la cuenta de Authentication secundaria.
   const credential = await createUserWithEmailAndPassword(
    secondaryAuth,email,password
   );
@@ -669,32 +553,36 @@ async function createClient(event){
   newAccount = credential.user;
 
   const clientUid = newAccount.uid;
-  const resellerRef = doc(db,"usuarios",currentUser.uid);
+  const resellerUid = currentUser.uid;
+
+  const resellerRef = doc(db,"usuarios",resellerUid);
   const clientRef = doc(db,"usuarios",clientUid);
   const movementRef = doc(collection(db,"movimientos"));
 
   const expiration = calculateExpiration(months);
 
-  // Descuento, perfil y movimiento en una sola transacción.
+  stage = "Ejecutar transacción de Firestore";
+
   await runTransaction(db,async transaction=>{
 
    const resellerSnap = await transaction.get(resellerRef);
 
    if(!resellerSnap.exists()){
-    throw new Error("No se encontró el revendedor.");
+    throw new Error("No se encontró el documento del revendedor en usuarios.");
    }
 
    const data = resellerSnap.data();
 
    if(data.rol!=="revendedor" || data.activo!==true){
-    throw new Error("La cuenta de revendedor no está activa.");
+    throw new Error("El usuario no tiene rol revendedor activo.");
    }
 
    const before = Number(data.creditos)||0;
 
    if(!Number.isSafeInteger(before) || before<months){
     throw new Error(
-     "Créditos insuficientes. Necesitas "+months+" créditos."
+     "Créditos insuficientes. Necesitas "+months+
+     " y tienes "+before+"."
     );
    }
 
@@ -710,22 +598,19 @@ async function createClient(event){
     email:email,
     rol:"cliente",
     activo:true,
-    creadoPor:currentUser.uid,
+    creadoPor:resellerUid,
     fechaCreacion:serverTimestamp(),
     planMeses:months,
     creditosConsumidos:months,
     fechaVencimiento:expiration,
-
-    // NUEVO: CONFIGURACIÓN DEL LÍMITE DE DISPOSITIVOS.
     maxDispositivos:maxDevices,
     dispositivosActivos:[],
-
     movimientoId:movementRef.id
    });
 
    transaction.set(movementRef,{
     tipo:"venta_cliente",
-    uidRevendedor:currentUser.uid,
+    uidRevendedor:resellerUid,
     emailRevendedor:currentUser.email||"",
     nombreRevendedor:data.nombre||"",
     uidCliente:clientUid,
@@ -735,60 +620,73 @@ async function createClient(event){
     cantidad:months,
     saldoAnterior:before,
     saldoNuevo:after,
-
-    // NUEVO: guardar también el límite en el historial.
     maxDispositivos:maxDevices,
-
     fecha:serverTimestamp()
    });
-
   });
 
   firestoreCreated = true;
 
-  // Limpiar formulario. El selector vuelve a 3 dispositivos.
+  stage = "Actualizar la pantalla después de la venta";
+
   $("createClientForm").reset();
   $("creditCost").textContent="1 crédito";
 
   message(
    "createClientMessage",
-   "✅ Cliente creado correctamente.\n"+
+   "✅ CLIENTE CREADO CORRECTAMENTE\n\n"+
    "Correo: "+email+"\n"+
    "Plan: "+planName(months)+"\n"+
-   "Vencimiento: "+expiration.toDate().toLocaleDateString("es-PY")+
-   "\nCréditos descontados: "+months+
-   "\nDispositivos permitidos: "+maxDevices+
-   "\nEntregá al cliente su correo y contraseña."
+   "Vencimiento: "+expiration.toDate().toLocaleDateString("es-UY")+"\n"+
+   "Créditos descontados: "+months+"\n"+
+   "Dispositivos permitidos: "+maxDevices+"\n\n"+
+   "Entregá al cliente su correo y contraseña."
   );
 
   await refreshAll();
 
  }catch(error){
 
-  console.error(error);
+  console.error("FALLO EN CREACIÓN DE CLIENTE",{
+   etapa:stage,
+   codigo:error.code||"sin código",
+   mensaje:error.message||String(error),
+   error:error
+  });
 
-  // Si la transacción no se completó, intentar eliminar
-  // la cuenta de Authentication recién creada.
   if(newAccount && !firestoreCreated){
+   stage = "Limpieza de cuenta incompleta";
+
    try{
     await deleteUser(newAccount);
+    cleanupMessage = "\nLa cuenta incompleta de Authentication fue eliminada.";
    }catch(cleanError){
-    console.error("Error al limpiar cuenta incompleta:",cleanError);
+    console.error("No se pudo eliminar la cuenta incompleta:",cleanError);
+    cleanupMessage =
+     "\nATENCIÓN: no se pudo eliminar la cuenta de Authentication. "+
+     "Puede haber quedado creada. Error: "+
+     (cleanError.code||cleanError.message);
    }
   }
 
+  const errorCode = error.code || "sin código";
+  const errorText = error.message || String(error);
+
   message(
    "createClientMessage",
-   "❌ No se pudo crear el cliente.\n"+
-   (error.code||error.message)
+   "❌ NO SE PUDO COMPLETAR LA CREACIÓN\n\n"+
+   "ETAPA: "+stage+"\n"+
+   "CÓDIGO: "+errorCode+"\n"+
+   "DETALLE: "+errorText+
+   cleanupMessage
   );
 
  }finally{
 
   try{
    await signOut(secondaryAuth);
-  }catch(error){
-   console.error(error);
+  }catch(signOutError){
+   console.error("Error cerrando sesión secundaria:",signOutError);
   }
 
   setBusy(button,false);
@@ -809,7 +707,12 @@ $("loginForm").addEventListener("submit",async event=>{
    $("password").value
   );
  }catch(error){
-  message("loginMessage","Error de acceso: "+(error.code||error.message));
+  message(
+   "loginMessage",
+   "Error de acceso:\n"+
+   (error.code||"sin código")+"\n"+
+   (error.message||String(error))
+  );
  }finally{
   setBusy(button,false);
  }
@@ -832,8 +735,12 @@ onAuthStateChanged(auth,async user=>{
   await refreshAll();
 
  }catch(error){
-  console.error(error);
-  showLogin("Error al verificar la cuenta: "+error.message);
+  console.error("Error verificando revendedor:",error);
+  showLogin(
+   "Error al verificar la cuenta:\n"+
+   (error.code||"sin código")+"\n"+
+   (error.message||String(error))
+  );
  }
 });
 
@@ -870,6 +777,5 @@ document.querySelectorAll("[data-tab]").forEach(button=>{
 });
 
 </script>
-
 </body>
 </html>
