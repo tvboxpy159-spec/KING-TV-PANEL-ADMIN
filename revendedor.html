@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -814,6 +813,9 @@ async function createClient(event){
     });
    }
 
+   // DATOS DEL CLIENTE.
+   // Los campos DEMO solamente se agregan cuando es una DEMO.
+
    const clientData = {
     nombre:name,
     email:email,
@@ -826,19 +828,22 @@ async function createClient(event){
     fechaVencimiento:expiration,
     maxDispositivos:maxDevices,
     dispositivosActivos:[],
-    movimientoId:movementRef.id,
-    tipoCuenta:isDemoAccount?"demo":"normal",
-    esDemo:isDemoAccount
+    movimientoId:movementRef.id
    };
 
    if(isDemoAccount){
+    clientData.tipoCuenta = "demo";
+    clientData.esDemo = true;
     clientData.demoDuracionHoras = 3;
     clientData.demoCreadaEn = serverTimestamp();
    }
 
    transaction.set(clientRef,clientData);
 
-   transaction.set(movementRef,{
+   // REGISTRO DEL MOVIMIENTO.
+   // La venta normal no incluye campos exclusivos de DEMO.
+
+   const movementData = {
     tipo:isDemoAccount?"demo_cliente":"venta_cliente",
     uidRevendedor:resellerUid,
     emailRevendedor:currentUser.email||"",
@@ -851,9 +856,14 @@ async function createClient(event){
     saldoAnterior:before,
     saldoNuevo:after,
     maxDispositivos:maxDevices,
-    tipoCuenta:isDemoAccount?"demo":"normal",
     fecha:serverTimestamp()
-   });
+   };
+
+   if(isDemoAccount){
+    movementData.tipoCuenta = "demo";
+   }
+
+   transaction.set(movementRef,movementData);
 
    stage = "Enviar y autorizar la transacción de Firestore";
   });
