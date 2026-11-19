@@ -551,7 +551,7 @@ async function loadClients(){
      ${remaining}
      <small>Estado: ${status}</small>
      <div class="item-actions">
-      ${c.activo===true && !pendingDeletion ? `
+      ${(c.activo===true || (demo && expired)) && !pendingDeletion ? `
        <button class="danger delete-client-button"
         data-uid="${escapeHTML(c.uid)}"
         data-name="${escapeHTML(c.nombre||"Cliente")}">
@@ -1006,14 +1006,18 @@ async function removeClient(uid,name,button){
   return;
  }
  const client = clients.find(c => c.uid === uid);
- if(!client || client.creadoPor !== currentUser.uid || client.activo !== true){
-  alert("Este cliente no está activo o no pertenece a tu panel.");
+ const expiredDemo = !!client && isDemo(client) && isDemoExpired(client);
+ const eligible = !!client && (client.activo === true || expiredDemo);
+ if(!eligible || client.creadoPor !== currentUser.uid || client.eliminacionSolicitada === true){
+  alert("No se puede solicitar la baja: el cliente no pertenece a tu panel, ya tiene una solicitud pendiente o no es una demo vencida/cliente activo.");
   return;
  }
  const confirmed = confirm(
   "¿Deseas solicitar la baja de esta cuenta?\n\n"+
   "Cliente: "+name+"\n\n"+
-  "El cliente quedará inactivo y la solicitud será enviada al administrador.\n"+
+  (expiredDemo
+   ? "La demo vencida quedará marcada para baja y la solicitud será enviada al administrador.\n"
+   : "El cliente quedará inactivo y la solicitud será enviada al administrador.\n")+
   "No se borrará su cuenta de Authentication ni se modificarán tus créditos."
  );
  if(!confirmed) return;
