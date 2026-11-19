@@ -94,7 +94,7 @@ input:focus,select:focus{border-color:#ff7600}
 <header>
  <div class="brand">
   👑 KING TV PREMIUM
-  <small>PANEL DE REVENDEDOR</small>
+  <small id="panelTypeLabel">PANEL DE REVENDEDOR</small>
  </div>
  <button class="secondary" id="logoutButton">CERRAR SESIÓN</button>
 </header>
@@ -132,6 +132,7 @@ input:focus,select:focus{border-color:#ff7600}
   <button data-tab="clients">👥 Mis clientes</button>
   <button data-tab="sales">📊 Mis ventas</button>
   <button data-tab="history">📋 Movimientos</button>
+  <button data-tab="transfer" id="transferTab" class="hidden">💳 Transferir créditos</button>
   <button data-tab="profile">👤 Mi perfil</button>
  </div>
 
@@ -225,6 +226,23 @@ input:focus,select:focus{border-color:#ff7600}
   <div id="movementList"><p class="empty">Cargando...</p></div>
  </section>
 
+ <section id="tab-transfer" class="panel hidden">
+  <h3>💳 Transferir créditos a otro revendedor</h3>
+  <p class="notice">Disponible únicamente para cuentas Super Panel. Los créditos se descuentan de tu saldo y se acreditan al destinatario.</p>
+  <form id="transferForm">
+   <label>Correo electrónico del revendedor destinatario</label>
+   <input id="transferEmail" type="email" required placeholder="revendedor@correo.com">
+   <label>Cantidad de créditos a transferir</label>
+   <input id="transferAmount" type="number" min="1" step="1" required placeholder="Ej.: 10">
+   <div class="panel">
+    <p class="notice">Tu saldo disponible:</p>
+    <h2 id="transferBalancePreview" style="color:#ffc65b">0</h2>
+   </div>
+   <button class="primary" id="transferButton">TRANSFERIR CRÉDITOS</button>
+  </form>
+  <div id="transferMessage" class="message"></div>
+ </section>
+
  <section id="tab-profile" class="panel hidden">
   <h3>👤 Mi perfil</h3>
   <div id="profileInfo"></div>
@@ -294,6 +312,17 @@ let currentUser = null;
 let resellerData = null;
 let clients = [];
 let movements = [];
+
+function isSuperPanel(){
+ const type = String(resellerData?.tipoPanel || "normal")
+  .toLowerCase().replace(/[ _-]/g,"");
+ return type === "super" || type === "superpanel";
+}
+
+function updatePanelPermissions(){
+ $("transferTab").classList.toggle("hidden",!isSuperPanel());
+ $("transferBalancePreview").textContent = Number(resellerData?.creditos)||0;
+}
 
 function message(id,text){
  $(id).textContent = text;
@@ -408,6 +437,7 @@ function updateBalance(){
 
  $("creditBalance").textContent = balance;
  $("balancePreview").textContent = balance;
+ if($("transferBalancePreview")) $("transferBalancePreview").textContent = balance;
 }
 
 async function verifyReseller(user){
@@ -443,6 +473,9 @@ async function loadProfile(){
  $("resellerName").textContent =
   "Nombre: "+(resellerData.nombre||"Revendedor");
 
+ $("panelTypeLabel").textContent =
+  isSuperPanel() ? "SUPER PANEL DE REVENDEDOR" : "PANEL NORMAL DE REVENDEDOR";
+
  $("resellerEmail").textContent =
   "Sesión: "+(currentUser.email||"");
 
@@ -452,12 +485,14 @@ async function loadProfile(){
    <small>Correo: ${escapeHTML(currentUser.email||"")}</small>
    <small>UID: ${escapeHTML(currentUser.uid)}</small>
    <small>Rol: REVENDEDOR</small>
+   <small>Tipo de panel: ${isSuperPanel()?"SUPER PANEL":"PANEL NORMAL"}</small>
    <small>Estado: ACTIVO</small>
    <small>Créditos: ${Number(resellerData.creditos)||0}</small>
   </div>
  `;
 
  updateBalance();
+ updatePanelPermissions();
 }
 
 async function loadClients(){
@@ -590,6 +625,7 @@ async function loadMovements(){
     <strong>${escapeHTML(
      m.tipo==="demo_cliente"?"DEMO GRATUITA":
      m.tipo==="venta_cliente"?"VENTA DE CLIENTE":
+     m.tipo==="transferencia_creditos"?"TRANSFERENCIA DE CRÉDITOS":
      m.tipo||"Movimiento"
     )}</strong>
     <small>Cliente: ${escapeHTML(m.nombreCliente||"-")}</small>
@@ -1033,6 +1069,88 @@ $("clientList").addEventListener("click",event=>{
 
  removeClient(uid,name,button);
 });
+
+async function transferCredits(event){
+ event.preventDefault();
+ if(!currentUser || !isSuperPanel()){
+  message("transferMessage","Acceso denegado. Esta función es exclusiva de Super Panel.");
+  return;
+ }
+ const email = $("transferEmail").value.trim().toLowerCase();
+ const amount = Number($("transferAmount").value);
+ const button = $("transferButton");
+ if(!email || !Number.isSafeInteger(amount) || amount<=0){
+  message("transferMessage","Ingresa un correo válido y una cantidad entera mayor que cero.");
+  return;
+ }
+ if(email === String(currentUser.email||"").toLowerCase()){
+  message("transferMessage","No puedes transferirte créditos a tu propia cuenta.");
+  return;
+ }
+ setBusy(button,true,"PROCESANDO TRANSFERENCIA...");
+ message("transferMessage","Buscando al revendedor y verificando los saldos...");
+ try{
+  let recipientQuery = await getDocs(query(
+   collection(db,"usuarios"),where("email","==",email),where("rol","==","revendedor")
+  ));
+  if(recipientQuery.empty){
+   recipientQuery = await getDocs(query(
+    collection(db,"usuarios"),where("correo","==",email),where("rol","==","revendedor")
+   ));
+  }
+  if(recipientQuery.empty) throw new Error("No se encontró un revendedor con ese correo.");
+  if(recipientQuery.size!==1) throw new Error("Hay varios perfiles con ese correo. No se realizó la transferencia.");
+  const recipientDoc = recipientQuery.docs[0];
+  const senderRef = doc(db,"usuarios",currentUser.uid);
+  const recipientRef = doc(db,"usuarios",recipientDoc.id);
+  const movementRef = doc(collection(db,"movimientos"));
+  let transferResult = null;
+  await runTransaction(db,async transaction=>{
+   const senderSnap = await transaction.get(senderRef);
+   const recipientSnap = await transaction.get(recipientRef);
+   if(!senderSnap.exists() || !recipientSnap.exists()) throw new Error("No se pudo verificar uno de los perfiles.");
+   const sender = senderSnap.data();
+   const recipient = recipientSnap.data();
+   if(sender.rol!=="revendedor" || sender.activo!==true) throw new Error("Tu cuenta no está autorizada.");
+   const panelType = String(sender.tipoPanel||"normal").toLowerCase().replace(/[ _-]/g,"");
+   if(panelType!=="super" && panelType!=="superpanel") throw new Error("Tu cuenta no tiene permisos de Super Panel.");
+   if(recipient.rol!=="revendedor" || recipient.activo!==true) throw new Error("El destinatario no es un revendedor activo.");
+   const senderBefore = Number(sender.creditos)||0;
+   const recipientBefore = Number(recipient.creditos)||0;
+   if(!Number.isSafeInteger(senderBefore) || senderBefore<amount) throw new Error("Créditos insuficientes. Tu saldo actual es "+senderBefore+".");
+   if(!Number.isSafeInteger(recipientBefore) || recipientBefore<0 || !Number.isSafeInteger(recipientBefore+amount)) throw new Error("El saldo del destinatario no es válido.");
+   const senderAfter = senderBefore-amount;
+   const recipientAfter = recipientBefore+amount;
+   transaction.update(senderRef,{creditos:senderAfter});
+   transaction.update(recipientRef,{creditos:recipientAfter});
+   transaction.set(movementRef,{
+    tipo:"transferencia_creditos",
+    uidRevendedor:currentUser.uid,
+    emailRevendedor:currentUser.email||"",
+    nombreRevendedor:sender.nombre||"",
+    uidDestinatario:recipientDoc.id,
+    emailDestinatario:recipient.email||recipient.correo||email,
+    nombreDestinatario:recipient.nombre||"",
+    cantidad:amount,
+    saldoAnterior:senderBefore,
+    saldoNuevo:senderAfter,
+    saldoDestinatarioAnterior:recipientBefore,
+    saldoDestinatarioNuevo:recipientAfter,
+    fecha:serverTimestamp()
+   });
+   transferResult={senderAfter,name:recipient.nombre||email};
+  });
+  $("transferForm").reset();
+  message("transferMessage","✅ TRANSFERENCIA REALIZADA\n\nDestinatario: "+transferResult.name+"\nCréditos enviados: "+amount+"\nTu nuevo saldo: "+transferResult.senderAfter);
+  await refreshAll();
+ }catch(error){
+  console.error("Error transfiriendo créditos:",error);
+  message("transferMessage","❌ NO SE PUDO REALIZAR LA TRANSFERENCIA\n"+(error.code||"")+"\n"+(error.message||String(error)));
+ }finally{
+  setBusy(button,false);
+ }
+}
+$("transferForm").addEventListener("submit",transferCredits);
 
 $("loginForm").addEventListener("submit",async event=>{
  event.preventDefault();
