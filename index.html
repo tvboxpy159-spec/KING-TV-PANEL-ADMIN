@@ -137,6 +137,7 @@ th{color:var(--gold)}
   <button data-tab="create">CREAR CUENTA</button>
   <button data-tab="credits">CRÉDITOS</button>
   <button data-tab="history">MOVIMIENTOS</button>
+  <button data-tab="deletions">SOLICITUDES DE BAJA</button>
  </div>
 
  <!-- REVENDEDORES -->
@@ -232,6 +233,22 @@ th{color:var(--gold)}
   </div>
  </div>
 
+ <!-- SOLICITUDES DE BAJA -->
+ <div id="tab-deletions" class="card tab-content hidden">
+  <h2>🛑 Solicitudes de eliminación de clientes</h2>
+  <p class="muted">Revisa las solicitudes enviadas por los revendedores. Aprobar mantiene al cliente inactivo; rechazar reactiva su perfil. No se modifican créditos ni movimientos.</p>
+  <button id="deletionsBtn" class="secondary">ACTUALIZAR SOLICITUDES</button>
+  <div id="deletionsMsg" class="msg error"></div>
+  <div class="table-wrap">
+   <table>
+    <thead><tr>
+     <th>Fecha</th><th>Cliente</th><th>Correo</th><th>Revendedor UID</th><th>Estado</th><th>Acciones</th>
+    </tr></thead>
+    <tbody id="deletionsTable"></tbody>
+   </table>
+  </div>
+ </div>
+
 </section>
 </div>
 
@@ -247,7 +264,7 @@ import {
 import {
  getFirestore, doc, getDoc, setDoc, updateDoc,
  collection, getDocs, query, where, orderBy, limit,
- serverTimestamp, runTransaction
+ serverTimestamp, runTransaction, writeBatch
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /* CONFIGURACIÓN FIREBASE */
@@ -395,6 +412,7 @@ document.querySelectorAll("[data-tab]").forEach(button => {
 
   if(button.dataset.tab === "resellers") await loadResellers();
   if(button.dataset.tab === "history") await loadHistory();
+  if(button.dataset.tab === "deletions") await loadDeletionRequests();
  });
 });
 
@@ -656,6 +674,88 @@ async function manageCredits(tipo){
 
  }catch(error){
   message("creditMsg",friendlyError(error));
+ }
+}
+
+/* SOLICITUDES DE BAJA DE CLIENTES */
+$("deletionsBtn").addEventListener("click",loadDeletionRequests);
+$("deletionsTable").addEventListener("click", async event => {
+ const button = event.target.closest("[data-deletion-action]");
+ if(!button) return;
+ await manageDeletionRequest(button.dataset.uid, button.dataset.deletionAction, button);
+});
+
+async function loadDeletionRequests(){
+ const tbody = $("deletionsTable");
+ tbody.innerHTML = '<tr><td colspan="6">Cargando solicitudes...</td></tr>';
+ clearMessage("deletionsMsg");
+ try{
+  const snap = await getDocs(collection(db,"solicitudesEliminacion"));
+  const requests = snap.docs.map(d => ({uid:d.id, ...d.data()}));
+  requests.sort((a,b) => {
+   const ta = a.fechaSolicitud?.toMillis?.() || 0;
+   const tb = b.fechaSolicitud?.toMillis?.() || 0;
+   return tb-ta;
+  });
+  if(!requests.length){
+   tbody.innerHTML = '<tr><td colspan="6">No hay solicitudes registradas.</td></tr>';
+   return;
+  }
+  tbody.innerHTML = requests.map(r => {
+   const date = r.fechaSolicitud?.toDate ? r.fechaSolicitud.toDate().toLocaleString("es-PY") : "Pendiente";
+   const state = String(r.estado || "pendiente");
+   const actions = state === "pendiente" ? `
+    <button class="success" data-deletion-action="aprobada" data-uid="${escapeHTML(r.uid)}">APROBAR</button>
+    <button class="danger" data-deletion-action="rechazada" data-uid="${escapeHTML(r.uid)}">RECHAZAR</button>
+   ` : `<span>${state.toUpperCase()}</span>`;
+   return `<tr>
+    <td>${escapeHTML(date)}</td>
+    <td>${escapeHTML(r.nombreCliente || "Cliente")}</td>
+    <td>${escapeHTML(r.emailCliente || "")}</td>
+    <td>${escapeHTML(r.uidRevendedor || "")}</td>
+    <td>${escapeHTML(state.toUpperCase())}</td>
+    <td>${actions}</td>
+   </tr>`;
+  }).join("");
+ }catch(error){
+  tbody.innerHTML = '<tr><td colspan="6">No se pudieron cargar las solicitudes.</td></tr>';
+  message("deletionsMsg",friendlyError(error));
+ }
+}
+
+async function manageDeletionRequest(clientUid, newState, button){
+ if(!currentAdmin || !clientUid || !["aprobada","rechazada"].includes(newState)) return;
+ const actionText = newState === "aprobada" ? "aprobar" : "rechazar";
+ if(!confirm(`¿Confirmas ${actionText} la solicitud de este cliente?`)) return;
+ button.disabled = true;
+ try{
+  const batch = writeBatch(db);
+  const requestRef = doc(db,"solicitudesEliminacion",clientUid);
+  const clientRef = doc(db,"usuarios",clientUid);
+  const requestSnap = await getDoc(requestRef);
+  if(!requestSnap.exists() || requestSnap.data().estado !== "pendiente"){
+   throw new Error("La solicitud ya no está pendiente o no existe.");
+  }
+  batch.update(requestRef,{
+   estado:newState,
+   fechaGestion:serverTimestamp(),
+   gestionadaPor:currentAdmin.uid
+  });
+  if(newState === "rechazada"){
+   batch.update(clientRef,{
+    activo:true,
+    eliminacionSolicitada:false
+   });
+  }
+  await batch.commit();
+  message("deletionsMsg",newState === "aprobada"
+   ? "Solicitud aprobada. El cliente permanece inactivo."
+   : "Solicitud rechazada. El perfil del cliente fue reactivado.","ok");
+  await loadDeletionRequests();
+ }catch(error){
+  message("deletionsMsg",friendlyError(error));
+ }finally{
+  button.disabled = false;
  }
 }
 
