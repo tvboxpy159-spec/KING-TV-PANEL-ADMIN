@@ -1121,8 +1121,8 @@ async function transferCredits(event){
    if(!Number.isSafeInteger(recipientBefore) || recipientBefore<0 || !Number.isSafeInteger(recipientBefore+amount)) throw new Error("El saldo del destinatario no es válido.");
    const senderAfter = senderBefore-amount;
    const recipientAfter = recipientBefore+amount;
-   transaction.update(senderRef,{creditos:senderAfter});
-   transaction.update(recipientRef,{creditos:recipientAfter});
+   transaction.update(senderRef,{creditos:senderAfter,ultimaTransferenciaId:movementRef.id});
+   transaction.update(recipientRef,{creditos:recipientAfter,ultimaTransferenciaId:movementRef.id});
    transaction.set(movementRef,{
     tipo:"transferencia_creditos",
     uidRevendedor:currentUser.uid,
