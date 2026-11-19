@@ -150,6 +150,7 @@ th{color:var(--gold)}
      <tr>
       <th>Nombre</th>
       <th>Correo</th>
+      <th>Tipo de panel</th>
       <th>Créditos</th>
       <th>Estado</th>
       <th>Acción</th>
@@ -170,6 +171,12 @@ th{color:var(--gold)}
 
   <label>Correo electrónico</label>
   <input id="newEmail" type="email" placeholder="Correo electrónico">
+
+  <label>Tipo de panel del revendedor</label>
+  <select id="newPanelType">
+   <option value="normal">PANEL NORMAL</option>
+   <option value="super">SUPER PANEL</option>
+  </select>
 
   <label>Contraseña inicial</label>
   <input id="newPassword" type="password" placeholder="Mínimo 6 caracteres">
@@ -420,7 +427,7 @@ function renderResellers(){
 
  if(!resellers.length){
   tbody.innerHTML =
-   '<tr><td colspan="5">Todavía no hay revendedores.</td></tr>';
+   '<tr><td colspan="6">Todavía no hay revendedores.</td></tr>';
   return;
  }
 
@@ -429,12 +436,14 @@ function renderResellers(){
 
   const name = escapeHTML(r.nombre || "Sin nombre");
   const email = escapeHTML(r.email || "");
+  const panelType = r.tipoPanel === "super" ? "SUPER PANEL" : "PANEL NORMAL";
   const credits = Number(r.creditos || 0);
   const active = r.activo === true;
 
   tr.innerHTML = `
    <td>${name}</td>
    <td>${email}</td>
+   <td>${panelType}</td>
    <td>${credits}</td>
    <td class="${active ? "status":"inactive"}">
     ${active ? "ACTIVO":"INACTIVO"}
@@ -508,6 +517,7 @@ async function createReseller(){
  const nombre = $("newName").value.trim();
  const email = $("newEmail").value.trim().toLowerCase();
  const password = $("newPassword").value;
+ const tipoPanel = $("newPanelType").value;
 
  if(!nombre || !email || !password){
   message("createMsg","Completa todos los campos.");
@@ -535,6 +545,7 @@ async function createReseller(){
    nombre:nombre,
    email:email,
    rol:"revendedor",
+   tipoPanel:tipoPanel,
    activo:true,
    creditos:0,
    creadoPor:ADMIN_UID,
@@ -546,6 +557,7 @@ async function createReseller(){
   $("newName").value = "";
   $("newEmail").value = "";
   $("newPassword").value = "";
+  $("newPanelType").value = "normal";
 
   message(
    "createMsg",
