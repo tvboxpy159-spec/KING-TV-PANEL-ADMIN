@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,43 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#080808">
 <title>KING TV PREMIUM - Administrador</title>
-
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#080808;color:#fff;
- font-family:Arial,sans-serif;
-}
-:root{
- --orange:#ff6500;
- --gold:#ffbd35;
- --panel:#17120f;
- --border:#49301e;
-}
-header{
- padding:20px;text-align:center;
- background:linear-gradient(135deg,#160b04,#080808);
- border-bottom:2px solid var(--orange);
-}
+body{margin:0;background:#080808;color:#fff;font-family:Arial,sans-serif}
+:root{--orange:#ff6500;--gold:#ffbd35;--panel:#17120f;--border:#49301e}
+header{padding:20px;text-align:center;background:linear-gradient(135deg,#160b04,#080808);border-bottom:2px solid var(--orange)}
 .logo{font-size:30px;font-weight:900;color:var(--gold)}
 .logo span{color:var(--orange)}
 .subtitle{color:#aaa;font-size:12px;letter-spacing:3px}
 .container{max-width:1050px;margin:auto;padding:16px}
-.card{
- background:var(--panel);border:1px solid var(--border);
- border-radius:14px;padding:18px;margin-bottom:15px;
-}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:15px}
 h2{color:var(--gold);font-size:19px;margin-top:0}
-input,select{
- width:100%;padding:14px;margin:7px 0 12px;
- border-radius:8px;border:1px solid #604027;
- background:#090909;color:white;font-size:15px;
-}
-button{
- border:0;border-radius:8px;padding:13px 16px;
- background:var(--orange);color:#fff;
- font-weight:bold;cursor:pointer;margin:4px 2px;
-}
+input,select{width:100%;padding:14px;margin:7px 0 12px;border-radius:8px;border:1px solid #604027;background:#090909;color:white;font-size:15px}
+button{border:0;border-radius:8px;padding:13px 16px;background:var(--orange);color:#fff;font-weight:bold;cursor:pointer;margin:4px 2px}
 button:hover{filter:brightness(1.15)}
 button.secondary{background:#39302a}
 button.danger{background:#a52318}
@@ -53,13 +27,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .tabs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:15px}
 .tabs button{flex:1;min-width:120px}
 .tabs button.active{background:var(--gold);color:#111}
-.stat-grid{
- display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
-}
-.stat{
- background:#0b0b0b;border:1px solid var(--border);
- border-radius:10px;padding:15px;text-align:center;
-}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:#0b0b0b;border:1px solid var(--border);border-radius:10px;padding:15px;text-align:center}
 .stat strong{display:block;color:var(--gold);font-size:25px}
 .stat small{color:#aaa}
 table{width:100%;border-collapse:collapse;font-size:13px}
@@ -68,70 +37,39 @@ th{color:var(--gold)}
 .table-wrap{overflow-x:auto}
 .status{color:#39d879;font-weight:bold}
 .inactive{color:#ff665b;font-weight:bold}
-.msg{padding:12px;border-radius:8px;margin:10px 0;display:none}
+.msg{padding:12px;border-radius:8px;margin:10px 0;display:none;white-space:pre-wrap;overflow-wrap:anywhere}
 .error{background:#461813;color:#ffb5aa}
 .ok{background:#123c25;color:#a8ffca}
 .muted{color:#aaa;font-size:13px}
-@media(max-width:600px){
- .stat-grid{grid-template-columns:1fr}
- table{min-width:650px}
-}
+@media(max-width:600px){.stat-grid{grid-template-columns:1fr}table{min-width:650px}}
 </style>
 </head>
-
 <body>
-
 <header>
  <div class="logo">👑 KING <span>TV</span></div>
  <div class="subtitle">PREMIUM · PANEL ADMINISTRADOR</div>
 </header>
-
 <div class="container">
-
-<!-- LOGIN -->
 <section id="loginBox" class="card">
  <h2>👑 Acceso administrador</h2>
  <div id="loginMsg" class="msg error"></div>
-
  <label>Correo electrónico</label>
- <input id="loginEmail" type="email"
- placeholder="Correo del administrador"
- autocomplete="username">
-
+ <input id="loginEmail" type="email" placeholder="Correo del administrador" autocomplete="username">
  <label>Contraseña</label>
- <input id="loginPassword" type="password"
- placeholder="Contraseña"
- autocomplete="current-password">
-
- <button id="loginBtn" style="width:100%">
- INGRESAR AL PANEL
- </button>
+ <input id="loginPassword" type="password" placeholder="Contraseña" autocomplete="current-password">
+ <button id="loginBtn" style="width:100%">INGRESAR AL PANEL</button>
 </section>
-
-<!-- PANEL -->
 <section id="adminPanel" class="hidden">
-
  <div class="card">
   <div>Bienvenido, administrador 👑</div>
   <div class="muted" id="adminEmail"></div>
   <button id="logoutBtn" class="danger">CERRAR SESIÓN</button>
  </div>
-
  <div class="stat-grid">
-  <div class="stat">
-   <strong id="totalResellers">0</strong>
-   <small>Revendedores</small>
-  </div>
-  <div class="stat">
-   <strong id="totalCredits">0</strong>
-   <small>Créditos en revendedores</small>
-  </div>
-  <div class="stat">
-   <strong id="activeResellers">0</strong>
-   <small>Revendedores activos</small>
-  </div>
+  <div class="stat"><strong id="totalResellers">0</strong><small>Revendedores</small></div>
+  <div class="stat"><strong id="totalCredits">0</strong><small>Créditos en revendedores</small></div>
+  <div class="stat"><strong id="activeResellers">0</strong><small>Revendedores activos</small></div>
  </div>
-
  <div class="tabs">
   <button class="active" data-tab="resellers">REVendedores</button>
   <button data-tab="create">CREAR CUENTA</button>
@@ -139,701 +77,297 @@ th{color:var(--gold)}
   <button data-tab="history">MOVIMIENTOS</button>
   <button data-tab="deletions">SOLICITUDES DE BAJA</button>
  </div>
-
- <!-- REVENDEDORES -->
  <div id="tab-resellers" class="card tab-content">
   <h2>👥 Lista de revendedores</h2>
   <button id="refreshBtn" class="secondary">ACTUALIZAR LISTA</button>
   <div id="resellerMsg" class="msg error"></div>
-  <div class="table-wrap">
-   <table>
-    <thead>
-     <tr>
-      <th>Nombre</th>
-      <th>Correo</th>
-      <th>Tipo de panel</th>
-      <th>Créditos</th>
-      <th>Estado</th>
-      <th>Acción</th>
-     </tr>
-    </thead>
-    <tbody id="resellerTable"></tbody>
-   </table>
-  </div>
+  <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Tipo de panel</th><th>Créditos</th><th>Estado</th><th>Acción</th></tr></thead><tbody id="resellerTable"></tbody></table></div>
  </div>
-
- <!-- CREAR -->
  <div id="tab-create" class="card tab-content hidden">
   <h2>➕ Crear revendedor</h2>
   <div id="createMsg" class="msg"></div>
-
-  <label>Nombre del revendedor</label>
-  <input id="newName" type="text" placeholder="Nombre completo">
-
-  <label>Correo electrónico</label>
-  <input id="newEmail" type="email" placeholder="Correo electrónico">
-
+  <label>Nombre del revendedor</label><input id="newName" type="text" placeholder="Nombre completo">
+  <label>Correo electrónico</label><input id="newEmail" type="email" placeholder="Correo electrónico">
   <label>Tipo de panel del revendedor</label>
-  <select id="newPanelType">
-   <option value="normal">PANEL NORMAL</option>
-   <option value="super">SUPER PANEL</option>
-  </select>
-
-  <label>Contraseña inicial</label>
-  <input id="newPassword" type="password" placeholder="Mínimo 6 caracteres">
-
+  <select id="newPanelType"><option value="normal">PANEL NORMAL</option><option value="super">SUPER PANEL</option></select>
+  <label>Contraseña inicial</label><input id="newPassword" type="password" placeholder="Mínimo 6 caracteres">
   <button id="createBtn" style="width:100%">CREAR REVENDEDOR</button>
-  <p class="muted">
-   La cuenta se creará con 0 créditos. Crear una cuenta no descuenta
-   créditos al administrador.
-  </p>
+  <p class="muted">La cuenta se creará con 0 créditos. Crear una cuenta no descuenta créditos al administrador.</p>
  </div>
-
- <!-- CREDITOS -->
  <div id="tab-credits" class="card tab-content hidden">
-  <h2>💳 Administrar créditos</h2>
-  <div id="creditMsg" class="msg"></div>
-
-  <label>Seleccionar revendedor</label>
-  <select id="creditReseller">
-   <option value="">Seleccionar revendedor</option>
-  </select>
-
-  <label>Cantidad de créditos</label>
-  <input id="creditAmount" type="number" min="1"
-   step="1" placeholder="Ejemplo: 10">
-
-  <button id="addCreditsBtn" class="success">ASIGNAR CRÉDITOS</button>
-  <button id="removeCreditsBtn" class="danger">DESCONTAR CRÉDITOS</button>
-
-  <p class="muted">
-   Las operaciones afectan únicamente el saldo del revendedor seleccionado.
-   No descuentan el saldo del administrador.
-  </p>
+  <h2>💳 Administrar créditos</h2><div id="creditMsg" class="msg"></div>
+  <label>Seleccionar revendedor</label><select id="creditReseller"><option value="">Seleccionar revendedor</option></select>
+  <label>Cantidad de créditos</label><input id="creditAmount" type="number" min="1" step="1" placeholder="Ejemplo: 10">
+  <button id="addCreditsBtn" class="success">ASIGNAR CRÉDITOS</button><button id="removeCreditsBtn" class="danger">DESCONTAR CRÉDITOS</button>
+  <p class="muted">Las operaciones afectan únicamente el saldo del revendedor seleccionado. No descuentan el saldo del administrador.</p>
  </div>
-
- <!-- HISTORIAL -->
  <div id="tab-history" class="card tab-content hidden">
-  <h2>📋 Historial de movimientos</h2>
-  <button id="historyBtn" class="secondary">ACTUALIZAR MOVIMIENTOS</button>
-  <div id="historyMsg" class="msg error"></div>
-  <div class="table-wrap">
-   <table>
-    <thead>
-     <tr>
-      <th>Fecha</th>
-      <th>Revendedor</th>
-      <th>Movimiento</th>
-      <th>Créditos</th>
-      <th>Administrador</th>
-     </tr>
-    </thead>
-    <tbody id="historyTable"></tbody>
-   </table>
-  </div>
+  <h2>📋 Historial de movimientos</h2><button id="historyBtn" class="secondary">ACTUALIZAR MOVIMIENTOS</button><div id="historyMsg" class="msg error"></div>
+  <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Revendedor</th><th>Movimiento</th><th>Créditos</th><th>Administrador</th></tr></thead><tbody id="historyTable"></tbody></table></div>
  </div>
-
- <!-- SOLICITUDES DE BAJA -->
  <div id="tab-deletions" class="card tab-content hidden">
   <h2>🛑 Solicitudes de eliminación de clientes</h2>
   <p class="muted">Revisa las solicitudes enviadas por los revendedores. Aprobar mantiene al cliente inactivo; rechazar reactiva su perfil. No se modifican créditos ni movimientos.</p>
-  <button id="deletionsBtn" class="secondary">ACTUALIZAR SOLICITUDES</button>
-  <div id="deletionsMsg" class="msg error"></div>
-  <div class="table-wrap">
-   <table>
-    <thead><tr>
-     <th>Fecha</th><th>Cliente</th><th>Correo</th><th>Revendedor UID</th><th>Estado</th><th>Acciones</th>
-    </tr></thead>
-    <tbody id="deletionsTable"></tbody>
-   </table>
-  </div>
+  <button id="deletionsBtn" class="secondary">ACTUALIZAR SOLICITUDES</button><div id="deletionsMsg" class="msg error"></div>
+  <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Cliente</th><th>Correo</th><th>Revendedor UID</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="deletionsTable"></tbody></table></div>
  </div>
-
 </section>
 </div>
-
 <script type="module">
-import { initializeApp }
- from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, query, where, orderBy, limit, serverTimestamp, runTransaction, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-import {
- getAuth, signInWithEmailAndPassword, signOut,
- createUserWithEmailAndPassword, onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
- getFirestore, doc, getDoc, setDoc, updateDoc,
- collection, getDocs, query, where, orderBy, limit,
- serverTimestamp, runTransaction, writeBatch
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-/* CONFIGURACIÓN FIREBASE */
 const firebaseConfig = {
- apiKey: "AIzaSyCcBBeW4mmjPXt53IYUaqVVWAESkqbVr5c",
- authDomain: "king-tv-premium.firebaseapp.com",
- projectId: "king-tv-premium",
- storageBucket: "king-tv-premium.firebasestorage.app",
- messagingSenderId: "573500590466",
- appId: "1:573500590466:web:d0d8043676dc90c621a79b"
+ apiKey:"AIzaSyCcBBeW4mmjPXt53IYUaqVVWAESkqbVr5c",
+ authDomain:"king-tv-premium.firebaseapp.com",
+ projectId:"king-tv-premium",
+ storageBucket:"king-tv-premium.firebasestorage.app",
+ messagingSenderId:"573500590466",
+ appId:"1:573500590466:web:d0d8043676dc90c621a79b"
 };
-
 const ADMIN_UID = "oTyoKtREvAVn87qbz8xhqxp8NHm2";
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-/* SEGUNDA SESIÓN PARA CREAR REVENDEDORES */
-const secondaryApp = initializeApp(firebaseConfig, "SecondaryApp");
+const secondaryApp = initializeApp(firebaseConfig,"SecondaryApp");
 const secondaryAuth = getAuth(secondaryApp);
 
 let resellers = [];
 let currentAdmin = null;
-
 const $ = id => document.getElementById(id);
 
-function message(id, text, type="error"){
- const el = $(id);
- el.textContent = text;
- el.className = "msg " + type;
- el.style.display = "block";
+function message(id,text,type="error"){
+ const el=$(id); el.textContent=text; el.className="msg "+type; el.style.display="block";
 }
-
-function clearMessage(id){
- $(id).style.display = "none";
-}
-
+function clearMessage(id){$(id).style.display="none";}
 function escapeHTML(value){
- return String(value ?? "").replace(/[&<>"']/g, c => ({
-  "&":"&amp;",
-  "<":"&lt;",
-  ">":"&gt;",
-  '"':"&quot;",
-  "'":"&#39;"
- })[c]);
+ return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
-/* INICIAR SESIÓN */
-$("loginBtn").addEventListener("click", async () => {
+$("loginBtn").addEventListener("click",async()=>{
  clearMessage("loginMsg");
-
- const email = $("loginEmail").value.trim();
- const password = $("loginPassword").value;
-
- if(!email || !password){
-  message("loginMsg","Completa el correo y la contraseña.");
-  return;
- }
-
- $("loginBtn").disabled = true;
- $("loginBtn").textContent = "VERIFICANDO...";
-
+ const email=$("loginEmail").value.trim(), password=$("loginPassword").value;
+ if(!email||!password){message("loginMsg","Completa el correo y la contraseña.");return;}
+ $("loginBtn").disabled=true;$("loginBtn").textContent="VERIFICANDO...";
  try{
-  const credential = await signInWithEmailAndPassword(
-   auth,email,password
-  );
-
-  if(credential.user.uid !== ADMIN_UID){
-   await signOut(auth);
-   throw new Error("Esta cuenta no tiene autorización de administrador.");
-  }
-
+  const credential=await signInWithEmailAndPassword(auth,email,password);
+  if(credential.user.uid!==ADMIN_UID){await signOut(auth);throw new Error("Esta cuenta no tiene autorización de administrador.");}
   await verifyAdmin(credential.user);
-
- }catch(error){
-  message("loginMsg",friendlyError(error));
- }finally{
-  $("loginBtn").disabled = false;
-  $("loginBtn").textContent = "INGRESAR AL PANEL";
- }
+ }catch(error){console.error("Error de inicio de sesión:",error);message("loginMsg",friendlyError(error));}
+ finally{$("loginBtn").disabled=false;$("loginBtn").textContent="INGRESAR AL PANEL";}
 });
 
 async function verifyAdmin(user){
- const ref = doc(db,"usuarios",ADMIN_UID);
- const snap = await getDoc(ref);
-
- if(!snap.exists()){
-  await signOut(auth);
-  throw new Error("No existe el perfil del administrador en usuarios.");
- }
-
- const data = snap.data();
-
- if(data.rol !== "admin" || data.activo !== true){
-  await signOut(auth);
-  throw new Error("El perfil no tiene rol admin o no está activo.");
- }
-
- currentAdmin = user;
- $("adminEmail").textContent = user.email || "";
- $("loginBox").classList.add("hidden");
- $("adminPanel").classList.remove("hidden");
-
+ const snap=await getDoc(doc(db,"usuarios",ADMIN_UID));
+ if(!snap.exists()){await signOut(auth);throw new Error("No existe el perfil del administrador en usuarios.");}
+ const data=snap.data();
+ if(data.rol!=="admin"||data.activo!==true){await signOut(auth);throw new Error("El perfil no tiene rol admin o no está activo.");}
+ currentAdmin=user;$("adminEmail").textContent=user.email||"";
+ $("loginBox").classList.add("hidden");$("adminPanel").classList.remove("hidden");
  await loadResellers();
 }
-
-/* RECUPERAR SESIÓN */
-onAuthStateChanged(auth, async user => {
- if(!user) return;
-
- if(user.uid !== ADMIN_UID){
-  await signOut(auth);
-  return;
- }
-
- try{
-  await verifyAdmin(user);
- }catch(error){
-  message("loginMsg",friendlyError(error));
- }
+onAuthStateChanged(auth,async user=>{
+ if(!user)return;
+ if(user.uid!==ADMIN_UID){await signOut(auth);return;}
+ try{await verifyAdmin(user);}catch(error){console.error("Error verificando administrador:",error);message("loginMsg",friendlyError(error));}
 });
+$("logoutBtn").addEventListener("click",async()=>{await signOut(auth);currentAdmin=null;$("adminPanel").classList.add("hidden");$("loginBox").classList.remove("hidden");});
 
-/* CERRAR SESIÓN */
-$("logoutBtn").addEventListener("click", async () => {
- await signOut(auth);
- currentAdmin = null;
- $("adminPanel").classList.add("hidden");
- $("loginBox").classList.remove("hidden");
-});
-
-/* CAMBIAR PESTAÑAS */
-document.querySelectorAll("[data-tab]").forEach(button => {
- button.addEventListener("click", async () => {
-  document.querySelectorAll("[data-tab]").forEach(b =>
-   b.classList.remove("active")
-  );
-  button.classList.add("active");
-
-  document.querySelectorAll(".tab-content").forEach(tab =>
-   tab.classList.add("hidden")
-  );
-
-  $("tab-" + button.dataset.tab).classList.remove("hidden");
-
-  if(button.dataset.tab === "resellers") await loadResellers();
-  if(button.dataset.tab === "history") await loadHistory();
-  if(button.dataset.tab === "deletions") await loadDeletionRequests();
+document.querySelectorAll("[data-tab]").forEach(button=>{
+ button.addEventListener("click",async()=>{
+  document.querySelectorAll("[data-tab]").forEach(b=>b.classList.remove("active"));button.classList.add("active");
+  document.querySelectorAll(".tab-content").forEach(tab=>tab.classList.add("hidden"));
+  $("tab-"+button.dataset.tab).classList.remove("hidden");
+  if(button.dataset.tab==="resellers")await loadResellers();
+  if(button.dataset.tab==="history")await loadHistory();
+  if(button.dataset.tab==="deletions")await loadDeletionRequests();
  });
 });
 
-/* CARGAR REVENDEDORES */
 async function loadResellers(){
  try{
-  const q = query(
-   collection(db,"usuarios"),
-   where("rol","==","revendedor")
-  );
-
-  const snap = await getDocs(q);
-  resellers = snap.docs.map(d => ({
-   id:d.id,
-   ...d.data()
-  }));
-
-  renderResellers();
-  updateStats();
-  updateResellerSelect();
-
- }catch(error){
-  message("resellerMsg",friendlyError(error));
- }
+  const snap=await getDocs(query(collection(db,"usuarios"),where("rol","==","revendedor")));
+  resellers=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderResellers();updateStats();updateResellerSelect();
+ }catch(error){console.error("Error cargando revendedores:",error);message("resellerMsg",friendlyError(error));}
 }
-
 function renderResellers(){
- const tbody = $("resellerTable");
- tbody.innerHTML = "";
-
- if(!resellers.length){
-  tbody.innerHTML =
-   '<tr><td colspan="6">Todavía no hay revendedores.</td></tr>';
-  return;
- }
-
- resellers.forEach(r => {
-  const tr = document.createElement("tr");
-
-  const name = escapeHTML(r.nombre || "Sin nombre");
-  const email = escapeHTML(r.email || "");
-  const panelType = r.tipoPanel === "super" ? "SUPER PANEL" : "PANEL NORMAL";
-  const credits = Number(r.creditos || 0);
-  const active = r.activo === true;
-
-  tr.innerHTML = `
-   <td>${name}</td>
-   <td>${email}</td>
-   <td>${panelType}</td>
-   <td>${credits}</td>
-   <td class="${active ? "status":"inactive"}">
-    ${active ? "ACTIVO":"INACTIVO"}
-   </td>
-   <td>
-    <button class="${active ? "danger":"success"}"
-     data-toggle="${escapeHTML(r.id)}">
-     ${active ? "DESACTIVAR":"ACTIVAR"}
-    </button>
-   </td>
-  `;
-
+ const tbody=$("resellerTable");tbody.innerHTML="";
+ if(!resellers.length){tbody.innerHTML='<tr><td colspan="6">Todavía no hay revendedores.</td></tr>';return;}
+ resellers.forEach(r=>{
+  const tr=document.createElement("tr"),name=escapeHTML(r.nombre||"Sin nombre"),email=escapeHTML(r.email||"");
+  const panelType=r.tipoPanel==="super"?"SUPER PANEL":"PANEL NORMAL",credits=Number(r.creditos||0),active=r.activo===true;
+  tr.innerHTML=`<td>${name}</td><td>${email}</td><td>${panelType}</td><td>${credits}</td><td class="${active?"status":"inactive"}">${active?"ACTIVO":"INACTIVO"}</td><td><button class="${active?"danger":"success"}" data-toggle="${escapeHTML(r.id)}">${active?"DESACTIVAR":"ACTIVAR"}</button></td>`;
   tbody.appendChild(tr);
  });
-
- tbody.querySelectorAll("[data-toggle]").forEach(button => {
-  button.addEventListener("click", async () => {
-   await toggleReseller(button.dataset.toggle);
-  });
- });
+ tbody.querySelectorAll("[data-toggle]").forEach(button=>button.addEventListener("click",async()=>toggleReseller(button.dataset.toggle)));
 }
-
 function updateStats(){
- $("totalResellers").textContent = resellers.length;
- $("totalCredits").textContent = resellers.reduce(
-  (sum,r) => sum + Number(r.creditos || 0),0
- );
- $("activeResellers").textContent = resellers.filter(
-  r => r.activo === true
- ).length;
+ $("totalResellers").textContent=resellers.length;
+ $("totalCredits").textContent=resellers.reduce((sum,r)=>sum+Number(r.creditos||0),0);
+ $("activeResellers").textContent=resellers.filter(r=>r.activo===true).length;
 }
-
 function updateResellerSelect(){
- const select = $("creditReseller");
- select.innerHTML =
-  '<option value="">Seleccionar revendedor</option>';
-
- resellers.forEach(r => {
-  const option = document.createElement("option");
-  option.value = r.id;
-  option.textContent =
-   `${r.nombre || r.email} — ${Number(r.creditos || 0)} créditos`;
-  select.appendChild(option);
- });
+ const select=$("creditReseller");select.innerHTML='<option value="">Seleccionar revendedor</option>';
+ resellers.forEach(r=>{const option=document.createElement("option");option.value=r.id;option.textContent=`${r.nombre||r.email} — ${Number(r.creditos||0)} créditos`;select.appendChild(option);});
 }
-
-/* ACTIVAR / DESACTIVAR */
 async function toggleReseller(uid){
- const reseller = resellers.find(r => r.id === uid);
- if(!reseller) return;
-
- try{
-  await updateDoc(doc(db,"usuarios",uid),{
-   activo: reseller.activo !== true
-  });
-
-  await loadResellers();
-  message("resellerMsg","Estado del revendedor actualizado.","ok");
-
- }catch(error){
-  message("resellerMsg",friendlyError(error));
- }
+ const reseller=resellers.find(r=>r.id===uid);if(!reseller)return;
+ try{await updateDoc(doc(db,"usuarios",uid),{activo:reseller.activo!==true});await loadResellers();message("resellerMsg","Estado del revendedor actualizado.","ok");}
+ catch(error){console.error("Error cambiando estado:",error);message("resellerMsg",friendlyError(error));}
 }
 
-/* CREAR REVENDEDOR */
+/* CREACIÓN CON DIAGNÓSTICO DETALLADO */
 $("createBtn").addEventListener("click",createReseller);
-
 async function createReseller(){
  clearMessage("createMsg");
+ const nombre=$("newName").value.trim(),email=$("newEmail").value.trim().toLowerCase();
+ const password=$("newPassword").value,tipoPanel=$("newPanelType").value;
+ if(!nombre||!email||!password){message("createMsg","Completa todos los campos.");return;}
+ if(password.length<6){message("createMsg","La contraseña debe tener al menos 6 caracteres.");return;}
+ if(!["normal","super"].includes(tipoPanel)){message("createMsg","Tipo de panel no válido.");return;}
+ if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID){message("createMsg","La sesión principal no corresponde al administrador. Cierra sesión y vuelve a ingresar.");return;}
 
- const nombre = $("newName").value.trim();
- const email = $("newEmail").value.trim().toLowerCase();
- const password = $("newPassword").value;
- const tipoPanel = $("newPanelType").value;
-
- if(!nombre || !email || !password){
-  message("createMsg","Completa todos los campos.");
-  return;
- }
-
- if(password.length < 6){
-  message("createMsg","La contraseña debe tener al menos 6 caracteres.");
-  return;
- }
-
- $("createBtn").disabled = true;
- $("createBtn").textContent = "CREANDO...";
-
- let newUser = null;
-
+ $("createBtn").disabled=true;$("createBtn").textContent="CREANDO...";
+ let newUser=null,stage="iniciando";
  try{
-  const credential = await createUserWithEmailAndPassword(
-   secondaryAuth,email,password
-  );
+  console.log("[KING TV] Proyecto:",app.options.projectId);
+  console.log("[KING TV] UID administrador autenticado:",auth.currentUser?.uid);
+  console.log("[KING TV] UID administrador esperado:",ADMIN_UID);
+  console.log("[KING TV] Tipo de panel:",tipoPanel);
 
-  newUser = credential.user;
+  stage="creando usuario en Firebase Authentication (sesión secundaria)";
+  const credential=await createUserWithEmailAndPassword(secondaryAuth,email,password);
+  newUser=credential.user;
+  console.log("[KING TV] Usuario nuevo creado en Authentication. UID:",newUser.uid);
 
-  await setDoc(doc(db,"usuarios",newUser.uid),{
-   nombre:nombre,
-   email:email,
-   rol:"revendedor",
-   tipoPanel:tipoPanel,
-   activo:true,
-   creditos:0,
-   creadoPor:ADMIN_UID,
-   creadoEn:serverTimestamp()
-  });
+  stage="guardando perfil en Firestore (colección usuarios)";
+  const profile={
+   nombre,email,rol:"revendedor",tipoPanel,activo:true,creditos:0,
+   creadoPor:ADMIN_UID,creadoEn:serverTimestamp()
+  };
+  console.log("[KING TV] Guardando perfil. Proyecto:",app.options.projectId,"UID autenticado en sesión principal:",auth.currentUser?.uid,"UID del nuevo perfil:",newUser.uid);
+  await setDoc(doc(db,"usuarios",newUser.uid),profile);
+  console.log("[KING TV] Perfil guardado correctamente en Firestore.");
 
+  stage="cerrando sesión secundaria";
   await signOut(secondaryAuth);
 
-  $("newName").value = "";
-  $("newEmail").value = "";
-  $("newPassword").value = "";
-  $("newPanelType").value = "normal";
-
-  message(
-   "createMsg",
-   "¡Revendedor creado correctamente con 0 créditos!",
-   "ok"
-  );
-
+  $("newName").value="";$("newEmail").value="";$("newPassword").value="";$("newPanelType").value="normal";
+  message("createMsg","¡Revendedor creado correctamente con 0 créditos!","ok");
   await loadResellers();
-
  }catch(error){
+  console.error("[KING TV] FALLO EN ETAPA:",stage);
+  console.error("[KING TV] ERROR COMPLETO:",error);
+  console.error("[KING TV] CÓDIGO:",error?.code||"sin código");
+  console.error("[KING TV] MENSAJE:",error?.message||String(error));
+  console.error("[KING TV] UID ADMIN:",auth.currentUser?.uid||"sin sesión","PROYECTO:",app.options.projectId);
   if(newUser){
-   try{
-    await signOut(secondaryAuth);
-   }catch(e){}
+   try{await signOut(secondaryAuth);}catch(signOutError){console.error("[KING TV] Error cerrando sesión secundaria:",signOutError);}
   }
-
-  message("createMsg",friendlyError(error));
-
- }finally{
-  $("createBtn").disabled = false;
-  $("createBtn").textContent = "CREAR REVENDEDOR";
- }
+  const code=error?.code||"sin-codigo";
+  const detail=error?.message||String(error);
+  const accountNote=(newUser&&stage!=="cerrando sesión secundaria")
+   ? "\nLa cuenta de Authentication pudo haberse creado. No repitas con el mismo correo hasta revisar Firebase Authentication."
+   : "";
+  message("createMsg","FALLO EN: "+stage+"\nCÓDIGO: "+code+"\nDETALLE: "+detail+accountNote);
+ }finally{$("createBtn").disabled=false;$("createBtn").textContent="CREAR REVENDEDOR";}
 }
 
-/* ASIGNAR Y DESCONTAR CRÉDITOS */
-$("addCreditsBtn").addEventListener("click",() => manageCredits("asignacion"));
-$("removeCreditsBtn").addEventListener("click",() => manageCredits("descuento"));
-
+$("addCreditsBtn").addEventListener("click",()=>manageCredits("asignacion"));
+$("removeCreditsBtn").addEventListener("click",()=>manageCredits("descuento"));
 async function manageCredits(tipo){
  clearMessage("creditMsg");
-
- const uid = $("creditReseller").value;
- const amount = Number($("creditAmount").value);
-
- if(!uid || !Number.isInteger(amount) || amount <= 0){
-  message("creditMsg","Selecciona un revendedor e ingresa créditos válidos.");
-  return;
- }
-
+ const uid=$("creditReseller").value,amount=Number($("creditAmount").value);
+ if(!uid||!Number.isInteger(amount)||amount<=0){message("creditMsg","Selecciona un revendedor e ingresa créditos válidos.");return;}
  try{
-  const resellerRef = doc(db,"usuarios",uid);
-  let newBalance = 0;
-
-  await runTransaction(db,async transaction => {
-   const snap = await transaction.get(resellerRef);
-
-   if(!snap.exists()){
-    throw new Error("No existe ese revendedor.");
-   }
-
-   const data = snap.data();
-
-   if(data.rol !== "revendedor"){
-    throw new Error("La cuenta seleccionada no es un revendedor.");
-   }
-
-   const current = Number(data.creditos || 0);
-
-   if(tipo === "descuento" && current < amount){
-    throw new Error("El revendedor no tiene suficientes créditos.");
-   }
-
-   newBalance = tipo === "asignacion"
-    ? current + amount
-    : current - amount;
-
-   transaction.update(resellerRef,{
-    creditos:newBalance
-   });
-
-   const movementRef = doc(collection(db,"movimientos"));
-
-   transaction.set(movementRef,{
-    usuarioId:uid,
-    usuarioEmail:data.email || "",
-    nombre:data.nombre || "",
-    tipo:tipo,
-    creditos:amount,
-    saldoAnterior:current,
-    saldoNuevo:newBalance,
-    adminUid:ADMIN_UID,
-    adminEmail:currentAdmin.email || "",
-    fecha:serverTimestamp()
-   });
+  const resellerRef=doc(db,"usuarios",uid);let newBalance=0;
+  await runTransaction(db,async transaction=>{
+   const snap=await transaction.get(resellerRef);
+   if(!snap.exists())throw new Error("No existe ese revendedor.");
+   const data=snap.data();if(data.rol!=="revendedor")throw new Error("La cuenta seleccionada no es un revendedor.");
+   const current=Number(data.creditos||0);
+   if(tipo==="descuento"&&current<amount)throw new Error("El revendedor no tiene suficientes créditos.");
+   newBalance=tipo==="asignacion"?current+amount:current-amount;
+   transaction.update(resellerRef,{creditos:newBalance});
+   transaction.set(doc(collection(db,"movimientos")),{usuarioId:uid,usuarioEmail:data.email||"",nombre:data.nombre||"",tipo,creditos:amount,saldoAnterior:current,saldoNuevo:newBalance,adminUid:ADMIN_UID,adminEmail:currentAdmin.email||"",fecha:serverTimestamp()});
   });
-
-  $("creditAmount").value = "";
-
-  message(
-   "creditMsg",
-   `Operación realizada. Nuevo saldo: ${newBalance} créditos.`,
-   "ok"
-  );
-
-  await loadResellers();
-
- }catch(error){
-  message("creditMsg",friendlyError(error));
- }
+  $("creditAmount").value="";message("creditMsg",`Operación realizada. Nuevo saldo: ${newBalance} créditos.`,"ok");await loadResellers();
+ }catch(error){console.error("Error administrando créditos:",error);message("creditMsg",friendlyError(error));}
 }
 
-/* SOLICITUDES DE BAJA DE CLIENTES */
 $("deletionsBtn").addEventListener("click",loadDeletionRequests);
-$("deletionsTable").addEventListener("click", async event => {
- const button = event.target.closest("[data-deletion-action]");
- if(!button) return;
- await manageDeletionRequest(button.dataset.uid, button.dataset.deletionAction, button);
+$("deletionsTable").addEventListener("click",async event=>{
+ const button=event.target.closest("[data-deletion-action]");if(!button)return;
+ await manageDeletionRequest(button.dataset.uid,button.dataset.deletionAction,button);
 });
-
 async function loadDeletionRequests(){
- const tbody = $("deletionsTable");
- tbody.innerHTML = '<tr><td colspan="6">Cargando solicitudes...</td></tr>';
- clearMessage("deletionsMsg");
+ const tbody=$("deletionsTable");tbody.innerHTML='<tr><td colspan="6">Cargando solicitudes...</td></tr>';clearMessage("deletionsMsg");
  try{
-  const snap = await getDocs(collection(db,"solicitudesEliminacion"));
-  const requests = snap.docs.map(d => ({uid:d.id, ...d.data()}));
-  requests.sort((a,b) => {
-   const ta = a.fechaSolicitud?.toMillis?.() || 0;
-   const tb = b.fechaSolicitud?.toMillis?.() || 0;
-   return tb-ta;
-  });
-  if(!requests.length){
-   tbody.innerHTML = '<tr><td colspan="6">No hay solicitudes registradas.</td></tr>';
-   return;
-  }
-  tbody.innerHTML = requests.map(r => {
-   const date = r.fechaSolicitud?.toDate ? r.fechaSolicitud.toDate().toLocaleString("es-PY") : "Pendiente";
-   const state = String(r.estado || "pendiente");
-   const actions = state === "pendiente" ? `
-    <button class="success" data-deletion-action="aprobada" data-uid="${escapeHTML(r.uid)}">APROBAR</button>
-    <button class="danger" data-deletion-action="rechazada" data-uid="${escapeHTML(r.uid)}">RECHAZAR</button>
-   ` : `<span>${state.toUpperCase()}</span>`;
-   return `<tr>
-    <td>${escapeHTML(date)}</td>
-    <td>${escapeHTML(r.nombreCliente || "Cliente")}</td>
-    <td>${escapeHTML(r.emailCliente || "")}</td>
-    <td>${escapeHTML(r.uidRevendedor || "")}</td>
-    <td>${escapeHTML(state.toUpperCase())}</td>
-    <td>${actions}</td>
-   </tr>`;
+  const snap=await getDocs(collection(db,"solicitudesEliminacion"));
+  const requests=snap.docs.map(d=>({uid:d.id,...d.data()}));
+  requests.sort((a,b)=>(b.fechaSolicitud?.toMillis?.()||0)-(a.fechaSolicitud?.toMillis?.()||0));
+  if(!requests.length){tbody.innerHTML='<tr><td colspan="6">No hay solicitudes registradas.</td></tr>';return;}
+  tbody.innerHTML=requests.map(r=>{
+   const date=r.fechaSolicitud?.toDate?r.fechaSolicitud.toDate().toLocaleString("es-PY"):"Pendiente";
+   const state=String(r.estado||"pendiente");
+   const actions=state==="pendiente"?`<button class="success" data-deletion-action="aprobada" data-uid="${escapeHTML(r.uid)}">APROBAR</button><button class="danger" data-deletion-action="rechazada" data-uid="${escapeHTML(r.uid)}">RECHAZAR</button>`:`<span>${escapeHTML(state.toUpperCase())}</span>`;
+   return `<tr><td>${escapeHTML(date)}</td><td>${escapeHTML(r.nombreCliente||"Cliente")}</td><td>${escapeHTML(r.emailCliente||"")}</td><td>${escapeHTML(r.uidRevendedor||"")}</td><td>${escapeHTML(state.toUpperCase())}</td><td>${actions}</td></tr>`;
   }).join("");
- }catch(error){
-  tbody.innerHTML = '<tr><td colspan="6">No se pudieron cargar las solicitudes.</td></tr>';
-  message("deletionsMsg",friendlyError(error));
- }
+ }catch(error){tbody.innerHTML='<tr><td colspan="6">No se pudieron cargar las solicitudes.</td></tr>';console.error("Error cargando solicitudes:",error);message("deletionsMsg",friendlyError(error));}
 }
-
-async function manageDeletionRequest(clientUid, newState, button){
- if(!currentAdmin || !clientUid || !["aprobada","rechazada"].includes(newState)) return;
- const actionText = newState === "aprobada" ? "aprobar" : "rechazar";
- if(!confirm(`¿Confirmas ${actionText} la solicitud de este cliente?`)) return;
- button.disabled = true;
+async function manageDeletionRequest(clientUid,newState,button){
+ if(!currentAdmin||!clientUid||!["aprobada","rechazada"].includes(newState))return;
+ const actionText=newState==="aprobada"?"aprobar":"rechazar";
+ if(!confirm(`¿Confirmas ${actionText} la solicitud de este cliente?`))return;
+ button.disabled=true;
  try{
-  const batch = writeBatch(db);
-  const requestRef = doc(db,"solicitudesEliminacion",clientUid);
-  const clientRef = doc(db,"usuarios",clientUid);
-  const requestSnap = await getDoc(requestRef);
-  if(!requestSnap.exists() || requestSnap.data().estado !== "pendiente"){
-   throw new Error("La solicitud ya no está pendiente o no existe.");
-  }
-  batch.update(requestRef,{
-   estado:newState,
-   fechaGestion:serverTimestamp(),
-   gestionadaPor:currentAdmin.uid
-  });
-  if(newState === "rechazada"){
-   batch.update(clientRef,{
-    activo:true,
-    eliminacionSolicitada:false
-   });
-  }
+  const batch=writeBatch(db),requestRef=doc(db,"solicitudesEliminacion",clientUid),clientRef=doc(db,"usuarios",clientUid);
+  const requestSnap=await getDoc(requestRef);
+  if(!requestSnap.exists()||requestSnap.data().estado!=="pendiente")throw new Error("La solicitud ya no está pendiente o no existe.");
+  batch.update(requestRef,{estado:newState,fechaGestion:serverTimestamp(),gestionadaPor:currentAdmin.uid});
+  if(newState==="rechazada")batch.update(clientRef,{activo:true,eliminacionSolicitada:false});
   await batch.commit();
-  message("deletionsMsg",newState === "aprobada"
-   ? "Solicitud aprobada. El cliente permanece inactivo."
-   : "Solicitud rechazada. El perfil del cliente fue reactivado.","ok");
+  message("deletionsMsg",newState==="aprobada"?"Solicitud aprobada. El cliente permanece inactivo.":"Solicitud rechazada. El perfil del cliente fue reactivado.","ok");
   await loadDeletionRequests();
- }catch(error){
-  message("deletionsMsg",friendlyError(error));
- }finally{
-  button.disabled = false;
- }
+ }catch(error){console.error("Error gestionando solicitud:",error);message("deletionsMsg",friendlyError(error));}
+ finally{button.disabled=false;}
 }
 
-/* HISTORIAL */
 $("historyBtn").addEventListener("click",loadHistory);
 $("refreshBtn").addEventListener("click",loadResellers);
-
 async function loadHistory(){
  try{
-  const q = query(
-   collection(db,"movimientos"),
-   orderBy("fecha","desc"),
-   limit(50)
-  );
-
-  const snap = await getDocs(q);
-  const tbody = $("historyTable");
-  tbody.innerHTML = "";
-
-  if(snap.empty){
-   tbody.innerHTML =
-    '<tr><td colspan="5">No hay movimientos registrados.</td></tr>';
-   return;
-  }
-
-  snap.forEach(d => {
-   const m = d.data();
-   const date = m.fecha?.toDate
-    ? m.fecha.toDate().toLocaleString("es-PY")
-    : "Pendiente";
-
-   const tr = document.createElement("tr");
-   tr.innerHTML = `
-    <td>${escapeHTML(date)}</td>
-    <td>${escapeHTML(m.nombre || m.usuarioEmail || "")}</td>
-    <td>${escapeHTML(m.tipo || "")}</td>
-    <td>${Number(m.creditos || 0)}</td>
-    <td>${escapeHTML(m.adminEmail || "")}</td>
-   `;
-
+  const snap=await getDocs(query(collection(db,"movimientos"),orderBy("fecha","desc"),limit(50)));
+  const tbody=$("historyTable");tbody.innerHTML="";
+  if(snap.empty){tbody.innerHTML='<tr><td colspan="5">No hay movimientos registrados.</td></tr>';return;}
+  snap.forEach(d=>{
+   const m=d.data(),date=m.fecha?.toDate?m.fecha.toDate().toLocaleString("es-PY"):"Pendiente";
+   const tr=document.createElement("tr");
+   tr.innerHTML=`<td>${escapeHTML(date)}</td><td>${escapeHTML(m.nombre||m.usuarioEmail||"")}</td><td>${escapeHTML(m.tipo||"")}</td><td>${Number(m.creditos||0)}</td><td>${escapeHTML(m.adminEmail||"")}</td>`;
    tbody.appendChild(tr);
   });
-
- }catch(error){
-  message("historyMsg",friendlyError(error));
- }
+ }catch(error){console.error("Error cargando historial:",error);message("historyMsg",friendlyError(error));}
 }
 
-/* ERRORES */
 function friendlyError(error){
- const code = error?.code || "";
-
- const errors = {
-  "auth/api-key-not-valid":
-   "Firebase no acepta la API Key. Hay que revisar la configuración del proyecto.",
-  "auth/invalid-credential":
-   "Correo o contraseña incorrectos.",
-  "auth/user-not-found":
-   "No existe una cuenta con ese correo.",
-  "auth/wrong-password":
-   "La contraseña es incorrecta.",
-  "auth/invalid-email":
-   "El correo electrónico no es válido.",
-  "auth/network-request-failed":
-   "Error de conexión. Revisa tu internet.",
-  "auth/email-already-in-use":
-   "Ese correo ya está registrado.",
-  "auth/weak-password":
-   "La contraseña es demasiado débil.",
-  "permission-denied":
-   "Firebase bloqueó la operación por permisos de Firestore.",
-  "failed-precondition":
-   "Firestore necesita revisar un índice o una condición de la consulta."
+ const code=error?.code||"";
+ const errors={
+  "auth/api-key-not-valid":"Firebase no acepta la API Key. Revisa la configuración del proyecto.",
+  "auth/invalid-credential":"Correo o contraseña incorrectos.",
+  "auth/user-not-found":"No existe una cuenta con ese correo.",
+  "auth/wrong-password":"La contraseña es incorrecta.",
+  "auth/invalid-email":"El correo electrónico no es válido.",
+  "auth/network-request-failed":"Error de conexión. Revisa tu internet.",
+  "auth/email-already-in-use":"Ese correo ya está registrado en Firebase Authentication.",
+  "auth/weak-password":"La contraseña es demasiado débil.",
+  "permission-denied":"Firebase bloqueó la operación por permisos de Firestore.",
+  "firestore/permission-denied":"Firebase bloqueó la operación por permisos de Firestore.",
+  "failed-precondition":"Firestore necesita revisar un índice o una condición de la consulta."
  };
-
- return errors[code] || error?.message || "Ocurrió un error desconocido.";
+ return errors[code]||error?.message||"Ocurrió un error desconocido.";
 }
 </script>
-
 </body>
 </html>
