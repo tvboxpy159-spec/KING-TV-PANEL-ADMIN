@@ -276,13 +276,9 @@ import {
  where,
  runTransaction,
  serverTimestamp,
- Timestamp
+ Timestamp,
+ writeBatch
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-
-import {
- getFunctions,
- httpsCallable
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-functions.js";
 
 const firebaseConfig = {
  apiKey:"AIzaSyCcBBeW4mmjPXt53IYUaqVVWAESkqbVr5c",
@@ -296,13 +292,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const functions = getFunctions(app);
-
-const deleteClientAccount = httpsCallable(
- functions,
- "deleteClientAccount"
-);
-
 const secondaryApp = initializeApp(firebaseConfig,"clientCreator");
 const secondaryAuth = getAuth(secondaryApp);
 
@@ -532,13 +521,16 @@ async function loadClients(){
    const demo = isDemo(c);
    const expired = demo && isDemoExpired(c);
 
-   const status = demo
-    ? (expired
-       ? '<span class="status-expired">🔴 DEMO VENCIDA</span>'
-       : '<span class="status-demo">⏱️ DEMO ACTIVA</span>')
-    : (c.activo===true
-       ? '<span class="status">🟢 ACTIVO</span>'
-       : '<span class="status-expired">🔴 INACTIVO</span>');
+   const pendingDeletion = c.eliminacionSolicitada === true;
+   const status = pendingDeletion
+    ? '<span class="status-expired">🟠 BAJA SOLICITADA · PENDIENTE</span>'
+    : (demo
+       ? (expired
+          ? '<span class="status-expired">🔴 DEMO VENCIDA</span>'
+          : '<span class="status-demo">⏱️ DEMO ACTIVA</span>')
+       : (c.activo===true
+          ? '<span class="status">🟢 ACTIVO</span>'
+          : '<span class="status-expired">🔴 INACTIVO</span>'));
 
    const plan = demo
     ? "DEMO GRATIS · 3 HORAS"
@@ -559,11 +551,13 @@ async function loadClients(){
      ${remaining}
      <small>Estado: ${status}</small>
      <div class="item-actions">
-      <button class="danger delete-client-button"
-       data-uid="${escapeHTML(c.uid)}"
-       data-name="${escapeHTML(c.nombre||"Cliente")}">
-       🗑️ ELIMINAR CUENTA
-      </button>
+      ${c.activo===true && !pendingDeletion ? `
+       <button class="danger delete-client-button"
+        data-uid="${escapeHTML(c.uid)}"
+        data-name="${escapeHTML(c.nombre||"Cliente")}">
+        SOLICITAR BAJA
+       </button>
+      ` : (pendingDeletion ? '<small>Solicitud enviada al administrador.</small>' : '')}
      </div>
     </div>
    `;
@@ -1002,59 +996,60 @@ async function createClient(event){
 }
 
 /*
- * ELIMINAR CLIENTE.
- * La eliminación real se realiza en el servidor mediante
- * la Cloud Function deleteClientAccount.
+ * SOLICITAR BAJA DEL CLIENTE.
+ * No elimina la cuenta de Authentication ni modifica créditos.
+ * Crea la solicitud y desactiva el perfil en un único batch.
  */
-
 async function removeClient(uid,name,button){
-
  if(!uid || !currentUser){
   alert("No se pudo identificar al cliente.");
   return;
  }
-
+ const client = clients.find(c => c.uid === uid);
+ if(!client || client.creadoPor !== currentUser.uid || client.activo !== true){
+  alert("Este cliente no está activo o no pertenece a tu panel.");
+  return;
+ }
  const confirmed = confirm(
-  "¿ESTÁS SEGURO DE ELIMINAR ESTA CUENTA?\n\n"+
+  "¿Deseas solicitar la baja de esta cuenta?\n\n"+
   "Cliente: "+name+"\n\n"+
-  "Se eliminará su usuario de Firebase Authentication "+
-  "y su perfil de Firestore.\n\n"+
-  "Esta acción no se puede deshacer."
+  "El cliente quedará inactivo y la solicitud será enviada al administrador.\n"+
+  "No se borrará su cuenta de Authentication ni se modificarán tus créditos."
  );
-
  if(!confirmed) return;
-
- setBusy(button,true,"ELIMINANDO...");
-
+ setBusy(button,true,"ENVIANDO SOLICITUD...");
  try{
-
-  const result = await deleteClientAccount({
-   clientUid:uid
+  const batch = writeBatch(db);
+  const clientRef = doc(db,"usuarios",uid);
+  const requestRef = doc(db,"solicitudesEliminacion",uid);
+  batch.update(clientRef,{
+   activo:false,
+   eliminacionSolicitada:true,
+   fechaSolicitudEliminacion:serverTimestamp()
   });
-
-  if(!result.data || result.data.success!==true){
-   throw new Error("El servidor no confirmó la eliminación.");
-  }
-
+  batch.set(requestRef,{
+   uidCliente:uid,
+   uidRevendedor:currentUser.uid,
+   emailCliente:client.email || "",
+   nombreCliente:client.nombre || name || "Cliente",
+   estado:"pendiente",
+   fechaSolicitud:serverTimestamp()
+  });
+  await batch.commit();
   alert(
-   "✅ CUENTA ELIMINADA CORRECTAMENTE\n\n"+
-   "Cliente: "+name
+   "✅ SOLICITUD ENVIADA\n\n"+
+   "Cliente: "+name+"\n"+
+   "El cliente quedó inactivo y la solicitud está pendiente de revisión del administrador."
   );
-
   await refreshAll();
-
  }catch(error){
-
-  console.error("Error eliminando cliente:",error);
-
+  console.error("Error solicitando baja:",error);
   alert(
-   "❌ NO SE PUDO ELIMINAR LA CUENTA\n\n"+
+   "❌ NO SE PUDO ENVIAR LA SOLICITUD\n\n"+
    "Código: "+(error.code||"sin código")+"\n"+
    "Detalle: "+(error.message||String(error))
   );
-
  }finally{
-
   setBusy(button,false);
  }
 }
